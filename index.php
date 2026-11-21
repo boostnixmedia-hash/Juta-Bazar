@@ -63,7 +63,7 @@ function home(): void {
   </picture>
   <div class="wrap hx-in">
     <span class="hx-kick"><?= e(SL('hero_kicker')) ?></span>
-    <h1><?= e(is_bn() ? $s['hero_title'] : $s['hero_title_en']) ?></h1>
+    <h1><?= e($s['hero_title_en'] ?: $s['hero_title']) ?></h1>
     <p><?= e(SL('hero_sub')) ?></p>
     <div class="hx-btns">
       <a class="btn hx-b1" href="<?= e(url('shop')) ?>"><?= e(SL('hero_btn')) ?> <?= icon('arrow', 18) ?></a>
@@ -78,12 +78,12 @@ function home(): void {
 <?php if ($cols): ?>
 <section class="cols" id="collections" aria-label="Collections">
   <div class="wrap">
-    <div class="sec-head"><h2><small><?= t('Shop by collection', 'কালেকশন অনুযায়ী') ?></small><?= t('Our Collections', 'আমাদের কালেকশন') ?></h2><a href="<?= e(url('shop')) ?>" class="more"><?= t('View all', 'সব দেখুন') ?> <?= icon('arrow', 16) ?></a></div>
+    <div class="sec-head"><h2><small><?= t('Shop by collection', 'কালেকশন অনুযায়ী') ?></small>Our Collections</h2><a href="<?= e(url('shop')) ?>" class="more"><?= t('View all', 'সব দেখুন') ?> <?= icon('arrow', 16) ?></a></div>
     <div class="col-row">
       <?php foreach ($cols as $c): ?>
       <a class="col-tile" href="<?= e(url('c/' . $c['slug'])) ?>">
-        <img src="<?= e(img_url($c['image'])) ?>" alt="<?= e($c['name']) ?>" loading="lazy" width="600" height="800">
-        <span><b><?= e(col_name($c)) ?></b><i><?= t('Shop now', 'দেখুন') ?> <?= icon('arrow', 14) ?></i></span>
+        <img src="<?= e(img_url($c['image'])) ?>" alt="<?= e(col_name($c)) ?>" loading="lazy" width="600" height="800">
+        <span><b><?= e($c['name_en'] ?: $c['name']) ?></b><i><?= t('Shop now', 'দেখুন') ?> <?= icon('arrow', 14) ?></i></span>
       </a>
       <?php endforeach; ?>
     </div>
@@ -94,7 +94,7 @@ function home(): void {
 <?php if ($featured): ?>
 <section class="sec">
   <div class="wrap">
-    <div class="sec-head"><h2><small><?= t('Trending now', 'এখন জনপ্রিয়') ?></small><?= t('Best Sellers', 'বেস্ট সেলার') ?></h2><a href="<?= e(url('shop')) ?>" class="more"><?= t('View all', 'সব দেখুন') ?> <?= icon('arrow', 16) ?></a></div>
+    <div class="sec-head"><h2><small><?= t('Trending now', 'এখন জনপ্রিয়') ?></small>Best Sellers</h2><a href="<?= e(url('shop')) ?>" class="more"><?= t('View all', 'সব দেখুন') ?> <?= icon('arrow', 16) ?></a></div>
     <div class="grid rail cap4"><?php foreach ($featured as $i => $p) echo product_card($p, $colName[$p['collection_id']] ?? '', $i < 2); ?></div>
   </div>
 </section>
@@ -104,8 +104,8 @@ function home(): void {
 <section class="sec col-sec<?= $n % 2 === 0 ? ' flip' : '' ?>" id="col-<?= e($c['slug']) ?>">
   <div class="wrap col-in">
     <a class="col-banner" href="<?= e(url('c/' . $c['slug'])) ?>">
-      <img src="<?= e(img_url($c['image'])) ?>" alt="<?= e($c['name']) ?>" loading="lazy" width="800" height="1000">
-      <span class="col-banner-txt"><small><?= bn_num(str_pad((string)$n, 2, '0', STR_PAD_LEFT)) ?> / <?= t('Collection', 'কালেকশন') ?></small><h2><?= e(col_name($c)) ?></h2><?php if (col_tag($c)): ?><p><?= e(col_tag($c)) ?></p><?php endif; ?><i class="more"><?= is_bn() ? e(col_name($c)) . ' দেখুন' : 'Shop ' . e(col_name($c)) ?> <?= icon('arrow', 16) ?></i></span>
+      <img src="<?= e(img_url($c['image'])) ?>" alt="<?= e(col_name($c)) ?>" loading="lazy" width="800" height="1000">
+      <span class="col-banner-txt"><small><?= bn_num(str_pad((string)$n, 2, '0', STR_PAD_LEFT)) ?> / <?= t('Collection', 'কালেকশন') ?></small><h2><?= e($c['name_en'] ?: $c['name']) ?></h2><?php if (col_tag($c)): ?><p><?= e(col_tag($c)) ?></p><?php endif; ?><i class="more"><?= is_bn() ? e(col_name($c)) . ' দেখুন' : 'Shop ' . e(col_name($c)) ?> <?= icon('arrow', 16) ?></i></span>
     </a>
     <div class="grid rail cap4"><?php foreach ($byCol[$c['id']] as $p) echo product_card($p, col_name($c)); ?></div>
   </div>
@@ -121,13 +121,13 @@ function home(): void {
 <?php endif; endforeach; ?>
 
 <section class="sec" id="recent" hidden><div class="wrap">
-  <div class="sec-head"><h2><small><?= t('Your history', 'আপনার দেখা') ?></small><?= t('Recently viewed', 'সম্প্রতি দেখেছেন') ?></h2></div>
+  <div class="sec-head"><h2><small><?= t('Your history', 'আপনার দেখা') ?></small>Recently viewed</h2></div>
   <div class="grid rail" id="recent-grid"></div>
 </div></section>
 
 <section class="about">
   <div class="wrap about-in">
-    <h2><small><?= t('About us', 'আমাদের কথা') ?></small><?= is_bn() ? 'কেন ' . e($s['shop_name']) . '?' : 'Why ' . e($s['shop_name_en']) . '?' ?></h2><span class="orn" aria-hidden="true"></span>
+    <h2><small><?= t('About us', 'আমাদের কথা') ?></small>Why <?= e($s['shop_name_en']) ?>?</h2><span class="orn" aria-hidden="true"></span>
     <p><?= nl2br(e(SL('about'))) ?></p>
   </div>
 </section>
@@ -258,12 +258,12 @@ function product(string $slug): void {
 </section>
 <?php if ($related): ?>
 <section class="sec"><div class="wrap">
-  <div class="sec-head"><h2><small><?= t('You may also like', 'আপনার পছন্দ হতে পারে') ?></small><?= t('More to explore', 'আরও দেখুন') ?></h2></div>
+  <div class="sec-head"><h2><small><?= t('You may also like', 'আপনার পছন্দ হতে পারে') ?></small>More to explore</h2></div>
   <div class="grid rail"><?php foreach ($related as $r) echo product_card($r, $p['cname'] ?? ''); ?></div>
 </div></section>
 <?php endif; ?>
 <section class="sec" id="recent" hidden><div class="wrap">
-  <div class="sec-head"><h2><small><?= t('Your history', 'আপনার দেখা') ?></small><?= t('Recently viewed', 'সম্প্রতি দেখেছেন') ?></h2></div>
+  <div class="sec-head"><h2><small><?= t('Your history', 'আপনার দেখা') ?></small>Recently viewed</h2></div>
   <div class="grid rail" id="recent-grid"></div>
 </div></section>
 <div class="sticky-buy only-m"><div><b><?= money($p['price']) ?></b><?php if ($d): ?><s><?= money($p['old_price']) ?></s><?php endif; ?></div><button class="btn" data-scroll-buy><?= t('Buy now', 'এখনই কিনুন') ?></button></div>

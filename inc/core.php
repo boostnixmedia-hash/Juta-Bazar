@@ -170,7 +170,7 @@ function p_desc(array $p): string { return is_bn() && trim((string)($p['descript
 /** Same page in the other language. */
 function lang_url(string $to): string {
     $u = strtok($_SERVER['REQUEST_URI'] ?? '/', '?');
-    $q = $_GET; unset($q['lang']); $q['lang'] = $to;
+    $q = $_GET; unset($q['lang'], $q['route'], $q['r']); $q['lang'] = $to;
     return $u . '?' . http_build_query($q);
 }
 function bn_num($n): string { if (defined('JB_EN') && !is_bn()) return (string)$n; return strtr((string)$n, ['0'=>'০','1'=>'১','2'=>'২','3'=>'৩','4'=>'৪','5'=>'৫','6'=>'৬','7'=>'৭','8'=>'৮','9'=>'৯']); }

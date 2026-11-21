@@ -30,7 +30,7 @@ function icon(string $n, int $s = 22): string {
 
 function logo_html(): string {
     if (S('logo')) return '<img src="' . e(img_url(S('logo'))) . '" alt="' . e(S('shop_name')) . '" class="logo-img">';
-    return '<span class="logo-txt"><b>' . e(S('shop_name_en') ?: S('shop_name')) . '</b><small>' . t('Footwear', 'জুতার বাজার') . '</small></span>';
+    return '<span class="logo-txt"><b>' . e(S('shop_name_en') ?: S('shop_name')) . '</b><small>Footwear</small></span>';
 }
 
 function page_head(string $title = '', string $desc = '', string $ogImg = ''): void {
@@ -79,7 +79,7 @@ function page_head(string $title = '', string $desc = '', string $ogImg = ''): v
     </nav>
     <div class="hdr-act">
       <form class="search only-d" action="<?= e(url('shop')) ?>" role="search"><?= icon('search', 18) ?><input name="q" placeholder="<?= t('Search shoes...', 'জুতা খুঁজুন...') ?>" aria-label="<?= t('Search', 'খুঁজুন') ?>" value="<?= e($_GET['q'] ?? '') ?>"></form>
-      <a class="lang-sw" href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>" hreflang="<?= is_bn() ? 'en' : 'bn' ?>" aria-label="<?= is_bn() ? 'Switch to English' : 'বাংলায় দেখুন' ?>"><?= is_bn() ? 'EN' : 'বাং' ?></a>
+      <a class="lang-sw" href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>" hreflang="<?= is_bn() ? 'en' : 'bn' ?>" aria-label="<?= is_bn() ? 'Switch to English' : 'Switch to Bangla' ?>"><?= is_bn() ? 'EN' : 'BN' ?></a>
       <button class="icon-btn only-m" data-open="#searchbox" aria-label="<?= t('Search', 'খুঁজুন') ?>"><?= icon('search') ?></button>
       <a class="icon-btn cart-btn" href="<?= e(url('cart')) ?>" aria-label="<?= t('Cart', 'কার্ট') ?>"><?= icon('bag') ?><span class="cart-count" data-cart-count hidden>0</span></a>
     </div>
@@ -98,7 +98,7 @@ function page_head(string $title = '', string $desc = '', string $ogImg = ''): v
       <a class="drawer-link with-img" href="<?= e(url('c/' . $c['slug'])) ?>"><img src="<?= e(img_url($c['image'])) ?>" alt="" loading="lazy"><span><?= e(col_name($c)) ?><?php if (col_tag($c)): ?><small><?= e(col_tag($c)) ?></small><?php endif; ?></span></a>
     <?php endforeach; ?>
     <a class="drawer-link" href="<?= e(url('track')) ?>"><?= t('Track your order', 'অর্ডার ট্র্যাক করুন') ?></a>
-    <a class="drawer-link" href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>"><?= is_bn() ? 'English' : 'বাংলায় দেখুন' ?></a>
+    <a class="drawer-link" href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>"><?= is_bn() ? 'English' : 'Bangla' ?></a>
     <div class="drawer-contact">
       <a href="tel:<?= e($s['phone']) ?>"><?= icon('phone', 18) ?> <?= e($s['phone']) ?></a>
       <a href="https://wa.me/<?= e(preg_replace('/\D/', '', $s['whatsapp'])) ?>" target="_blank" rel="noopener"><?= icon('wa', 18) ?> WhatsApp</a>
@@ -134,7 +134,7 @@ function page_foot(): void {
       </div>
     </div>
     <div><p class="fh"><?= t('Collections', 'কালেকশন') ?></p><?php foreach ($cols as $c): ?><a href="<?= e(url('c/' . $c['slug'])) ?>"><?= e(col_name($c)) ?></a><?php endforeach; ?></div>
-    <div><p class="fh"><?= t('Help', 'সাহায্য') ?></p><a href="<?= e(url('track')) ?>"><?= t('Track order', 'অর্ডার ট্র্যাক') ?></a><a href="<?= e(url('cart')) ?>"><?= t('Cart', 'কার্ট') ?></a><a href="<?= e(url('shop')) ?>"><?= t('All shoes', 'সব জুতা') ?></a><a href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>"><?= is_bn() ? 'English' : 'বাংলা' ?></a></div>
+    <div><p class="fh"><?= t('Help', 'সাহায্য') ?></p><a href="<?= e(url('track')) ?>"><?= t('Track order', 'অর্ডার ট্র্যাক') ?></a><a href="<?= e(url('cart')) ?>"><?= t('Cart', 'কার্ট') ?></a><a href="<?= e(url('shop')) ?>"><?= t('All shoes', 'সব জুতা') ?></a><a href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>"><?= is_bn() ? 'English' : 'Bangla' ?></a></div>
     <div><p class="fh"><?= t('Contact', 'যোগাযোগ') ?></p>
       <a href="tel:<?= e($s['phone']) ?>"><?= icon('phone', 16) ?> <?= e(bn_num($s['phone'])) ?></a>
       <a href="https://wa.me/<?= e($wa) ?>" target="_blank" rel="noopener"><?= icon('wa', 16) ?> WhatsApp</a>

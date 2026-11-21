@@ -525,19 +525,16 @@ h2 small,.col-banner small,.promo small{display:block;font-family:var(--fb);font
 /* language switch */
 .lang-sw{display:inline-flex;align-items:center;justify-content:center;height:30px;min-width:38px;padding:0 9px;border:1px solid var(--line);font-size:12.5px;font-weight:600;letter-spacing:.08em;color:var(--ink);transition:.2s}
 .lang-sw:hover{border-color:var(--ink);background:var(--ink);color:#fff}
-.lang-en .lang-sw{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0}
 /* Bangla: never space or uppercase Bangla letters (breaks conjuncts); serif headings */
 .lang-bn *{letter-spacing:0!important}
 .lang-bn .hx-kick,.lang-bn .btn,.lang-bn small,.lang-bn .kicker{text-transform:none!important}
-.lang-bn .hx h1{font-weight:600;font-size:clamp(38px,9.5vw,96px);line-height:1.25}
-.lang-bn .sec-head h2,.lang-bn .about h2,.lang-bn .col-banner h2,.lang-bn .promo h2{font-weight:600;font-size:clamp(24px,4.6vw,40px);line-height:1.35}
-.lang-bn .col-tile b{font-size:20px;font-weight:600}
+.lang-bn .promo h2{font-weight:600;font-size:clamp(24px,4.6vw,40px);line-height:1.35}
 .lang-bn .pd-info h1,.lang-bn .list-head h1{font-weight:600}
 .lang-bn body{font-size:16.5px;line-height:1.75}
 .lang-bn .hx-btns .btn{font-size:15px}
 /* recently viewed */
 #recent[hidden]{display:none}
 .lang-bn .logo-txt b{letter-spacing:.2em!important}
-.lang-bn .logo-txt small{font-family:'Noto Sans Bengali',sans-serif;font-size:11px;margin-top:3px;padding-left:0}
 .lang-bn .hx-kick,.lang-bn .sec-head h2 small,.lang-bn .col-banner-txt small,.lang-bn .hx-tag small,.lang-bn .kicker{font-size:14px}
-@media (min-width:900px){.lang-bn .hx h1{font-size:clamp(48px,5.4vw,80px)}}
+.lang-bn .hx h1,.lang-bn .sec-head h2,.lang-bn .about h2,.lang-bn .col-banner h2,.lang-bn .col-tile b,.lang-bn .logo-txt b,.lang-bn .logo-txt small{letter-spacing:revert!important}
+.lang-bn .hx h1{letter-spacing:-.01em!important}.lang-bn .logo-txt b{letter-spacing:.2em!important}.lang-bn .logo-txt small{letter-spacing:.55em!important;text-transform:uppercase!important}
