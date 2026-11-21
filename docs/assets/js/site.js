@@ -3,6 +3,9 @@
 'use strict';
 var J=window.JB||{base:'/',cur:'৳',din:70,dout:130,free:0};
 var KEY='jb_cart_v1';
+/* always open a page at the top (no jumping to an old scroll position) */
+try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}
+if(!location.hash){window.scrollTo(0,0);window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)})}
 var BN=J.lang==='bn';var T=function(en,b){return BN?b:en};
 var bn=function(n){n=String(n);return BN?n.replace(/[0-9]/g,function(d){return '০১২৩৪৫৬৭৮৯'[d]}):n};
 var money=function(n){return J.cur+bn(Number(n).toLocaleString('en-US'))};
