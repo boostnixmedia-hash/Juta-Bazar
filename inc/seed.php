@@ -26,7 +26,7 @@ function jb_seed(PDO $pdo): void {
         ['loafers', 'Classic Bit Loafer', 'Heritage', 3790, 0, 'lof-4', '39,40,41,42,43,44', 'Brown', 0],
         ['formal', 'Woven Leather Slip-On', 'Heritage', 4250, 4990, 'frm-1', '39,40,41,42,43,44', 'Brown', 1],
         ['formal', 'Wingtip Oxford', 'Heritage', 4490, 0, 'frm-2', '39,40,41,42,43', 'Burgundy', 0],
-        ['formal', 'Brogue Derby', 'Crafted', 3990, 4600, 'frm-3', '40,41,42,43,44', 'Tan', 0],
+        ['formal', 'Tan Driving Loafer', 'Crafted', 3990, 4600, 'frm-3', '40,41,42,43,44', 'Tan', 0],
         ['formal', 'Midnight Derby', 'Crafted', 4150, 0, 'frm-4', '39,40,41,42,43', 'Navy', 0],
         ['sandals', 'Buckle Comfort Slide', 'Breeze', 1290, 1550, 'snd-1', '38,39,40,41,42,43,44', 'Black', 1],
         ['sandals', 'Leather Thong Sandal', 'Breeze', 1450, 1750, 'snd-2', '39,40,41,42,43', 'Black/Brown', 0],

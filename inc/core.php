@@ -7,7 +7,7 @@ date_default_timezone_set('Asia/Dhaka');
 mb_internal_encoding('UTF-8');
 
 define('JB_ROOT', dirname(__DIR__));
-define('JB_VERSION', '1.9.1');
+define('JB_VERSION', '1.9.2');
 
 /** Private data folder: ~/jutarbazar-data (outside public_html) if possible, else ./data (blocked by .htaccess). */
 function jb_data_dir(): string {
@@ -177,7 +177,7 @@ function jb_defaults(): array {
         'of6_big' => 'auto',
         'of6_end' => 'OFF!',
         'of6_theme' => 'dark',
-        'of6_img' => 'assets/img/demo/offer/frm-3.webp',
+        'of6_img' => 'assets/img/demo/offer/frm-2.webp',
         'of6_link' => 'c/formal',
         'of7_on' => '1',
         'of7_l1' => 'LOAFERS',
