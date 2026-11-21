@@ -114,7 +114,7 @@ function home(): void {
       <img src="<?= e(img_url($c['image'])) ?>" alt="<?= e(col_name($c)) ?>" loading="lazy" width="800" height="1000">
       <span class="col-banner-txt"><small><?= bn_num(str_pad((string)$n, 2, '0', STR_PAD_LEFT)) ?> / <?= t('Collection', 'কালেকশন') ?></small><h2><?= e($c['name_en'] ?: $c['name']) ?></h2><?php if (col_tag($c)): ?><p><?= e(col_tag($c)) ?></p><?php endif; ?><i class="more"><?= is_bn() ? e(col_name($c)) . ' দেখুন' : 'Shop ' . e(col_name($c)) ?> <?= icon('arrow', 16) ?></i></span>
     </a>
-    <div class="grid rail cap4"><?php foreach ($byCol[$c['id']] as $p) echo product_card($p, col_name($c)); ?></div>
+    <div class="grid rail cap4"><?php foreach ($byCol[$c['id']] as $p) echo product_card($p, col_name($c)); ?><?php if (count($byCol[$c['id']]) < 4): ?><a class="card more-tile" href="<?= e(url('c/' . $c['slug'])) ?>"><span><small><?= t('Explore', 'দেখুন') ?></small><b><?= is_bn() ? e(col_name($c)) : 'All ' . e($c['name_en'] ?: $c['name']) ?></b><i><?= icon('arrow', 22) ?></i></span></a><?php endif; ?></div>
   </div>
 </section>
 <?php if ($n === 2 && trim(SL('promo_title'))): ?>
@@ -167,6 +167,37 @@ function shop(string $slug = ''): void {
     page_head($title, $col ? col_tag($col) : '');
     $base = $col ? url('c/' . $col['slug']) : url('shop');
     ?>
+<?php $maxOff = 0; foreach ($items as $it) $maxOff = max($maxOff, discount_pct($it)); $bimg = $col ? img_url($col['image']) : url('assets/img/demo/hero-full-s.webp'); ?>
+<section class="lx-banner">
+  <img src="<?= e($bimg) ?>" alt="<?= e($title) ?>" width="800" height="500" fetchpriority="high">
+  <div class="lx-bt">
+    <small><?= $col ? t('Collection', 'কালেকশন') : 'JUTAR BAZAR' ?></small>
+    <b><?= e($col ? ($col['name_en'] ?: $col['name']) : t('All Shoes', 'সব জুতা')) ?></b>
+    <?php if ($maxOff): ?><span class="lx-off"><?= t('Up to', 'সর্বোচ্চ') ?> <em><?= bn_num($maxOff) ?>%</em> <?= t('off', 'ছাড়') ?></span><?php endif; ?>
+  </div>
+</section>
+<div class="lx-bar" id="lx-bar">
+  <button type="button" class="lx-fbtn" data-lx-open aria-label="<?= t('Filter and sort', 'ফিল্টার ও সাজান') ?>"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><?php if ($size !== '' || $sort !== 'new'): ?><i></i><?php endif; ?></button>
+  <h2><?= e($title) ?> <small><?= bn_num(count($items)) ?></small></h2>
+  <div class="lx-view" role="group" aria-label="<?= t('Layout', 'দেখার ধরন') ?>">
+    <button type="button" data-cols="1" aria-label="<?= t('One per row', 'এক সারিতে একটি') ?>"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="1" y="1" width="16" height="16" fill="currentColor"/></svg></button>
+    <button type="button" data-cols="2" class="on" aria-label="<?= t('Two per row', 'এক সারিতে দুটি') ?>"><svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><rect x="1" y="1" width="7" height="7"/><rect x="10" y="1" width="7" height="7"/><rect x="1" y="10" width="7" height="7"/><rect x="10" y="10" width="7" height="7"/></svg></button>
+  </div>
+</div>
+<div class="lx-sheet" id="lx-sheet" hidden>
+  <div class="lx-sheet-bg" data-lx-close></div>
+  <form class="lx-sheet-in" method="get" action="<?= e($base) ?>">
+    <div class="lx-sheet-h"><b><?= t('Filter & sort', 'ফিল্টার ও সাজান') ?></b><button type="button" data-lx-close aria-label="Close"><?= icon('x', 20) ?></button></div>
+    <?php if ($q !== ''): ?><input type="hidden" name="q" value="<?= e($q) ?>"><?php endif; ?>
+    <p class="lx-lbl"><?= t('Collection', 'কালেকশন') ?></p>
+    <div class="lx-opts"><a class="<?= !$col ? 'on' : '' ?>" href="<?= e(url('shop')) ?>"><?= t('All', 'সব') ?></a><?php foreach ($cols as $c): ?><a class="<?= $col && $col['id'] == $c['id'] ? 'on' : '' ?>" href="<?= e(url('c/' . $c['slug'])) ?>"><?= e(col_name($c)) ?></a><?php endforeach; ?></div>
+    <p class="lx-lbl"><?= t('Sort by', 'সাজান') ?></p>
+    <div class="lx-opts"><?php foreach (['new' => t('Featured', 'বাছাই করা'), 'low' => t('Price: low to high', 'দাম: কম থেকে বেশি'), 'high' => t('Price: high to low', 'দাম: বেশি থেকে কম'), 'off' => t('Biggest discount', 'সবচেয়ে বেশি ছাড়')] as $k => $v): ?><label><input type="radio" name="sort" value="<?= $k ?>"<?= $sort === $k ? ' checked' : '' ?>><span><?= $v ?></span></label><?php endforeach; ?></div>
+    <p class="lx-lbl"><?= t('Size', 'সাইজ') ?></p>
+    <div class="lx-opts lx-sz"><label><input type="radio" name="size" value=""<?= $size === '' ? ' checked' : '' ?>><span><?= t('All', 'সব') ?></span></label><?php for ($z = 36; $z <= 46; $z++): ?><label><input type="radio" name="size" value="<?= $z ?>"<?= $size === (string)$z ? ' checked' : '' ?>><span><?= bn_num($z) ?></span></label><?php endfor; ?></div>
+    <div class="lx-sheet-f"><a class="btn btn-line" href="<?= e($base . ($q !== '' ? '?q=' . rawurlencode($q) : '')) ?>"><?= t('Clear', 'মুছুন') ?></a><button class="btn" type="submit"><?= t('Show results', 'ফলাফল দেখুন') ?></button></div>
+  </form>
+</div>
 <section class="list-head">
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb"><a href="<?= e(url()) ?>"><?= t('Home', 'হোম') ?></a> / <?= $col ? '<a href="' . e(url('shop')) . '">' . t('All Shoes', 'সব জুতা') . '</a> / ' : '' ?><span><?= e($title) ?></span></nav>
@@ -187,8 +218,8 @@ function shop(string $slug = ''): void {
     </form>
   </div>
 </section>
-<section class="sec pt0"><div class="wrap"><h2 class="sr"><?= t('Products', 'জুতা') ?></h2>
-  <?php if ($items): ?><div class="grid"><?php foreach ($items as $i => $p) echo product_card($p, $col ? '' : ($colName[$p['collection_id']] ?? ''), $i < 4); ?></div>
+<section class="sec pt0 lx-list"><div class="wrap"><h2 class="sr"><?= t('Products', 'জুতা') ?></h2>
+  <?php if ($items): ?><div class="grid" id="lx-grid"><?php foreach ($items as $i => $p) echo product_card($p, $col ? '' : ($colName[$p['collection_id']] ?? ''), $i < 4); ?></div>
   <?php else: ?><div class="empty"><p><?= t('No shoes found right now.', 'এই মুহূর্তে কোনো জুতা পাওয়া যায়নি।') ?></p><a class="btn" href="<?= e(url('shop')) ?>"><?= t('View all shoes', 'সব জুতা দেখুন') ?></a></div><?php endif; ?>
 </div></section>
 <?php

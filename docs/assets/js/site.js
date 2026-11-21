@@ -129,3 +129,20 @@ if(co){
     if(h){grid.innerHTML=h;box.hidden=false}}).catch(function(){});
 })();
 })();
+/* listing: filter sheet + 1/2 column view */
+(function(){var sh=document.getElementById('lx-sheet'),g=document.getElementById('lx-grid');
+  document.addEventListener('click',function(e){
+    if(e.target.closest('[data-lx-open]')&&sh){sh.hidden=false;document.body.style.overflow='hidden'}
+    if(e.target.closest('[data-lx-close]')&&sh){sh.hidden=true;document.body.style.overflow=''}
+    var b=e.target.closest('.lx-view button');if(b&&g){set(b.getAttribute('data-cols'));try{localStorage.setItem('jb_cols',b.getAttribute('data-cols'))}catch(x){}}
+  });
+  function set(n){if(!g)return;g.classList.toggle('one',n==='1');[].forEach.call(document.querySelectorAll('.lx-view button'),function(x){x.classList.toggle('on',x.getAttribute('data-cols')===n)})}
+  try{var v=localStorage.getItem('jb_cols');if(v)set(v)}catch(x){}
+})();
+/* phone: hide header when scrolling down, show when scrolling up */
+(function(){var h=document.querySelector('.hdr');if(!h)return;var y0=window.scrollY,tick=false;
+  window.addEventListener('scroll',function(){if(tick)return;tick=true;requestAnimationFrame(function(){var y=window.scrollY;
+    if(window.innerWidth<900&&!document.body.style.overflow){var hide=y>140&&y>y0+4;var show=y<y0-4||y<80;
+      if(hide){h.classList.add('hide');document.body.classList.add('hdr-hidden')}else if(show){h.classList.remove('hide');document.body.classList.remove('hdr-hidden')}}
+    y0=y;tick=false})},{passive:true});
+})();

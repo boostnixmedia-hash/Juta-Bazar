@@ -264,20 +264,23 @@ function admin_head(string $title, bool $bare = false): void {
     ?><!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title><?= e($title) ?> | অ্যাডমিন</title>
 <link rel="icon" href="<?= e(url('assets/img/favicon.svg')) ?>">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&family=Noto+Serif+Bengali:wght@600;700&display=swap">
 <link rel="stylesheet" href="<?= e(url('admin/admin.css')) ?>?v=<?= JB_VERSION ?>">
 </head><body class="<?= $bare ? 'bare' : '' ?>">
 <?php if (!$bare): ?>
 <header class="top">
   <button class="menu-btn" onclick="document.body.classList.toggle('nav-open')" aria-label="মেনু">☰</button>
-  <a class="brand" href="<?= e(aurl()) ?>"><img src="<?= e(S('logo') ? img_url(S('logo')) : url('assets/img/favicon.svg')) ?>" alt=""><span><?= e(S('shop_name')) ?><small>অ্যাডমিন প্যানেল</small></span></a>
+  <a class="brand" href="<?= e(aurl()) ?>"><img src="<?= e(S('logo') ? img_url(S('logo')) : url('assets/img/favicon.svg')) ?>" alt=""><span><b class="brand-en"><?= e(S('shop_name_en') ?: S('shop_name')) ?></b><small>অ্যাডমিন প্যানেল</small></span></a>
   <a class="view-site" href="<?= e(url()) ?>" target="_blank">সাইট দেখুন ↗</a>
 </header>
 <nav class="side">
-  <?php foreach ([['dash', '🏠', 'ড্যাশবোর্ড'], ['orders', '📦', 'অর্ডার'], ['product', '➕', 'নতুন প্রোডাক্ট পোস্ট'], ['products', '👟', 'সব প্রোডাক্ট'], ['cols', '🗂️', 'কালেকশন'], ['settings', '⚙️', 'সাইট সেটিংস']] as [$k, $ic, $l]): ?>
+  <?php $AI = ['dash' => '<path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/>', 'orders' => '<path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/>', 'product' => '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>', 'products' => '<path d="M3 16c0-2 1-3 3-3 3 0 4-4 6-6 1 2 3 3 6 4 2 .6 3 2 3 4v2H3z"/><path d="M3 18h18"/>', 'cols' => '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>', 'settings' => '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>', 'logout' => '<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>'];
+  $ai = fn($k) => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' . $AI[$k] . '</svg>'; ?>
+  <p class="side-lbl">মেনু</p>
+  <?php foreach ([['dash', '', 'ড্যাশবোর্ড'], ['orders', '', 'অর্ডার'], ['product', '', 'নতুন প্রোডাক্ট পোস্ট'], ['products', '', 'সব প্রোডাক্ট'], ['cols', '', 'কালেকশন'], ['settings', '', 'সাইট সেটিংস']] as [$k, $ic, $l]): $ic = $ai($k); ?>
     <a href="<?= e(aurl($k)) ?>" class="<?= $a === $k || ($k === 'orders' && $a === 'order') ? 'on' : '' ?>"><span><?= $ic ?></span><?= $l ?><?php if ($k === 'orders' && $newCount): ?><i class="pill"><?= bn_num($newCount) ?></i><?php endif; ?></a>
   <?php endforeach; ?>
-  <a href="<?= e(aurl('logout')) ?>"><span>🚪</span>লগআউট</a>
+  <a class="side-out" href="<?= e(aurl('logout')) ?>"><span><?= $ai('logout') ?></span>লগআউট</a>
 </nav>
 <div class="nav-bg" onclick="document.body.classList.remove('nav-open')"></div>
 <main class="main">
@@ -311,7 +314,7 @@ case 'dash':
     $sumT = array_sum(array_column($days, 1)); $sumN = array_sum(array_column($days, 2));
     admin_head('ড্যাশবোর্ড');
     ?>
-    <div class="welcome"><div><h1>স্বাগতম 👋</h1><p>আজ <?= bn_num(date('d/m/Y')) ?>। নতুন জুতা পোস্ট করতে নিচের বাটনে চাপুন।</p></div><a class="btn" href="<?= e(aurl('product')) ?>">➕ নতুন প্রোডাক্ট পোস্ট</a></div>
+    <div class="welcome"><div><small class="w-k">JUTAR BAZAR · ড্যাশবোর্ড</small><h1>স্বাগতম</h1><p>আজ <?= bn_num(date('d/m/Y')) ?>। নতুন জুতা পোস্ট করতে নিচের বাটনে চাপুন।</p></div><a class="btn gold" href="<?= e(aurl('product')) ?>">+ নতুন প্রোডাক্ট পোস্ট</a></div>
     <div class="stats"><?php foreach ($stats as [$l, $v, $to, $c]): ?><a class="stat <?= $c ?>" href="<?= e(aurl($to)) ?>"><small><?= $l ?></small><b><?= $v ?></b></a><?php endforeach; ?></div>
     <section class="box chart-box"><h2>গত ৩০ দিনের বিক্রি <small>মোট <?= money($sumT) ?> • <?= bn_num($sumN) ?>টি অর্ডার (বাতিল বাদে)</small></h2>
       <div class="chart" role="img" aria-label="গত ৩০ দিনের দৈনিক বিক্রি">

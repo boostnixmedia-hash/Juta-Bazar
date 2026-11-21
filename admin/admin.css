@@ -172,3 +172,51 @@ code{background:var(--soft);padding:2px 6px;border-radius:6px}
 .cap-tabs button{border:1px solid #ddd;background:#fff;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:600;font-size:14px}
 .cap-tabs button.on{background:#141210;color:#fff;border-color:#141210}
 .chips.tone label span{padding:8px 14px}
+
+/* ===== Premium skin v1.5 ===== */
+:root{--ink:#14120f;--muted:#7a736a;--line:#ebe5dc;--soft:#f7f3ec;--bg:#f4f0e9;--acc:#a8834f;--gold:#c9a46a;--gold2:#e7cfa6;--r:16px;--sh:0 1px 2px rgba(20,18,15,.04),0 8px 24px rgba(20,18,15,.06)}
+body{background:var(--bg);color:var(--ink)}
+h1,h2,.box>h2{font-family:'Noto Serif Bengali','Anek Bangla',serif;font-weight:700;letter-spacing:0}
+h1{font-size:28px}
+.top{height:64px;background:linear-gradient(90deg,#0f0d0b,#1b1712);border-bottom:1px solid rgba(201,164,106,.25);padding:0 22px}
+.brand img{background:transparent;border:1px solid rgba(201,164,106,.4);border-radius:50%;padding:4px}
+.brand-en{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:700;letter-spacing:.22em;color:#fff}
+.brand small{color:var(--gold2);opacity:.85;letter-spacing:0;margin-top:2px}
+.view-site{background:transparent;border:1px solid rgba(201,164,106,.5);color:var(--gold2);padding:7px 16px;transition:.2s}
+.view-site:hover{background:var(--gold);color:#14120f}
+.side{top:64px;background:#14120f;border-right:0;padding:18px 14px;color:#d9d2c6}
+.side-lbl{margin:4px 12px 10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7d7468}
+.side a{color:#d9d2c6;font-weight:500;padding:12px 14px;border-radius:12px;margin-bottom:4px;transition:background .2s,color .2s}
+.side a span{width:22px;display:flex;align-items:center;justify-content:center;color:#a39a8c}
+.side a:hover{background:rgba(255,255,255,.05);color:#fff}
+.side a.on{background:linear-gradient(90deg,rgba(201,164,106,.22),rgba(201,164,106,.06));color:#fff;box-shadow:inset 3px 0 0 var(--gold)}
+.side a.on span{color:var(--gold2)}
+.side-out{margin-top:18px;border-top:1px solid rgba(255,255,255,.07);padding-top:16px!important;border-radius:0!important}
+.pill{background:var(--gold);color:#14120f}
+.nav-open .nav-bg{inset:64px 0 0}
+.main{padding:26px 18px 100px}
+.box{border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:20px}
+.btn{background:var(--ink);border-color:var(--ink);font-weight:600;letter-spacing:.01em;transition:background .2s,border-color .2s,color .2s,transform .15s}
+.btn:hover{background:var(--acc);border-color:var(--acc)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:#fff;color:var(--ink);border-color:#d8cfc2}
+.btn.ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.link-btn,h2 .sm{color:var(--acc)}
+input,select,textarea{border-radius:12px!important;border-color:#e2dacd!important;background:#fffdf9!important;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(201,164,106,.18)!important}
+@media (min-width:1000px){.main{margin-left:262px;padding:32px 36px 100px}.side{width:262px}}
+.welcome{background:radial-gradient(120% 140% at 85% 0%,#3a2c1c 0%,#14120f 60%)!important;border:1px solid rgba(201,164,106,.3)!important;border-radius:var(--r)!important;padding:26px 28px!important;color:#fff;box-shadow:var(--sh)}
+.welcome h1{color:#fff;font-size:30px}
+.welcome p{color:#cfc6b8}
+.w-k{display:block;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.24em;color:var(--gold2);margin-bottom:4px}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#14120f}
+.btn.gold:hover{background:#fff;border-color:#fff;color:#14120f}
+.stat{border:1px solid var(--line)!important;border-left:1px solid var(--line)!important;border-top:3px solid var(--gold)!important;box-shadow:var(--sh);padding:18px!important;transition:transform .2s}
+.stat:hover{transform:translateY(-2px)}
+.stat small{font-size:13px;letter-spacing:.02em}
+.stat b{font-family:'Noto Serif Bengali',serif;font-size:28px;font-weight:700}
+.bar i{background:linear-gradient(180deg,var(--gold2),var(--acc));opacity:1}
+.bar:hover i{background:var(--ink)}
+@media (min-width:1000px){.side{top:64px}}
+.welcome::after{background:var(--gold);opacity:.12}
+.welcome .btn.gold{background:var(--gold);border-color:var(--gold);color:#14120f}

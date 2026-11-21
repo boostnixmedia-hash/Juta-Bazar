@@ -22,7 +22,7 @@ if(box&&inp){
     var chain=Promise.resolve();
     files.forEach(function(f){
       var ph=document.createElement('div');ph.className='im loading';ph.textContent='আপলোড হচ্ছে...';box.insertBefore(ph,addBtn);
-      chain=chain.then(function(){return shrink(f,1800)}).then(function(b){var fd=new FormData();fd.append('file',b,f.name.replace(/\.\w+$/,'')+(b.type==='image/png'?'.png':'.jpg'));return post('upload',fd)}).then(function(r){
+      chain=chain.then(function(){return shrink(f,1800)}).then(function(b){var fd=new FormData();fd.append('file',b,f.name.replace(/\.\w+$/,'')+(b.type==='image/png'?'.png':'.jpg'));return window.JB_DEMO_UPLOAD?window.JB_DEMO_UPLOAD(b):post('upload',fd)}).then(function(r){
         if(!r.ok)throw new Error(r.error);
         ph.className='im';ph.draggable=true;ph.innerHTML='<img src="'+r.url+'" alt=""><input type="hidden" name="images[]" value="'+r.path+'"><button type="button" class="rm" title="সরান">×</button>';
       }).catch(function(e){ph.remove();alert('ছবি আপলোড হয়নি: '+e.message)});
@@ -47,7 +47,7 @@ function caption(mode){
   fd.append('name',val('#f-name'));fd.append('collection_id',val('#f-col'));fd.append('brand',val('#f-brand'));fd.append('price',val('#f-price'));fd.append('old_price',val('#f-old'));fd.append('colors',val('#f-colors'));fd.append('notes',val('#f-notes'));fd.append('mode',mode||'ai');var tn=document.querySelector('#tone input:checked');fd.append('tone',tn?tn.value:'premium');
   fd.append('sizes',[].map.call(document.querySelectorAll('#sizes input:checked'),function(i){return i.value}).join(','));
   var first=document.querySelector('#imgs input[name="images[]"]');if(first)fd.append('image',first.value);
-  post('caption',fd).then(function(r){
+  (window.JB_DEMO_CAP?new Promise(function(ok){setTimeout(function(){ok(window.JB_DEMO_CAP(fd))},700)}):post('caption',fd)).then(function(r){
     if(!r.ok)throw new Error(r.error||'');
     [['#f-short','short'],['#f-desc','description'],['#f-short-bn','short_bn'],['#f-desc-bn','description_bn'],['#f-fb','fb_post'],['#f-fb-en','fb_post_en'],['#f-insta','insta'],['#f-seo-t','seo_title'],['#f-seo-d','seo_desc'],['#f-tags','tags']].forEach(function(x){var el=$(x[0]);if(el&&r[x[1]]){el.value=r[x[1]];el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')}});
     $('#gen-note').textContent=r.source==='ai'?'✅ AI দিয়ে লেখা হয়েছে। দরকার হলে নিজের মতো বদলে নিন।':'✅ '+(r.note||'টেমপ্লেট দিয়ে লেখা হয়েছে।');

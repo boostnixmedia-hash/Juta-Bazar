@@ -15,6 +15,7 @@ function icon(string $n, int $s = 22): string {
         'swap' => '<path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/>',
         'shield' => '<path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-4"/>',
         'cash' => '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+        'flame' => '<path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-8.5z"/>',
         'arrow' => '<path d="M5 12h14M13 6l6 6-6 6"/>',
         'fb' => '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8.5c0-.3.2-.5.5-.5z"/>',
         'ig' => '<rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17" cy="7" r=".6"/>',
@@ -151,11 +152,12 @@ function page_foot(): void {
 </div>
 <script>window.JB_WAPOP=<?= (int)($s['wa_popup_sec'] ?? 6) ?>;</script>
 <a class="wa-float" href="https://wa.me/<?= e($wa) ?>" target="_blank" rel="noopener" aria-label="<?= t('Message us on WhatsApp', 'হোয়াটসঅ্যাপে মেসেজ দিন') ?>"><?= icon('wa', 28) ?></a>
+<?php $rt = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/', '/'); $bp = trim(parse_url(base_url(), PHP_URL_PATH) ?: '', '/'); if ($bp !== '' && str_starts_with($rt, $bp)) $rt = trim(substr($rt, strlen($bp)), '/'); ?>
 <nav class="tabbar only-m" aria-label="Bottom menu">
-  <a href="<?= e(url()) ?>"><?= icon('home') ?><span><?= t('Home', 'হোম') ?></span></a>
-  <a href="<?= e(url('shop')) ?>"><?= icon('grid') ?><span><?= t('Shop', 'শপ') ?></span></a>
+  <a href="<?= e(url()) ?>"<?= $rt === '' || $rt === 'index.php' ? ' class="on"' : '' ?>><?= icon('home') ?><span><?= t('Home', 'হোম') ?></span></a>
+  <a href="<?= e(url('shop')) ?>"<?= preg_match('#^(shop|c/|p/)#', $rt) ? ' class="on"' : '' ?>><?= icon('grid') ?><span><?= t('Shop', 'শপ') ?></span></a>
   <button data-open="#searchbox"><?= icon('search') ?><span><?= t('Search', 'খুঁজুন') ?></span></button>
-  <a href="<?= e(url('cart')) ?>" class="cart-btn"><?= icon('bag') ?><span><?= t('Cart', 'কার্ট') ?></span><i class="cart-count" data-cart-count hidden>0</i></a>
+  <a href="<?= e(url('cart')) ?>" class="cart-btn<?= str_starts_with($rt, 'cart') || str_starts_with($rt, 'checkout') ? ' on' : '' ?>"><?= icon('bag') ?><span><?= t('Cart', 'কার্ট') ?></span><i class="cart-count" data-cart-count hidden>0</i></a>
   <a href="https://wa.me/<?= e($wa) ?>" target="_blank" rel="noopener"><?= icon('wa') ?><span><?= t('Chat', 'চ্যাট') ?></span></a>
 </nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -163,6 +165,21 @@ function page_foot(): void {
 </body>
 </html>
 <?php
+}
+
+/** Small colour swatches from colour names like "Black/White" or "কালো, সাদা". */
+function color_dots(string $colors): string {
+    static $M = ['black' => '#161616', 'কালো' => '#161616', 'white' => '#f7f7f5', 'সাদা' => '#f7f7f5', 'grey' => '#8d8f93', 'gray' => '#8d8f93', 'ধূসর' => '#8d8f93', 'silver' => '#c4c6c9',
+        'brown' => '#6b4226', 'বাদামি' => '#6b4226', 'tan' => '#b07a4a', 'camel' => '#b98a55', 'beige' => '#d9c6a5', 'cream' => '#efe6d2', 'red' => '#c2272d', 'লাল' => '#c2272d', 'maroon' => '#6d1a24', 'wine' => '#6d1a24',
+        'blue' => '#2a5bd7', 'নীল' => '#2a5bd7', 'navy' => '#1d2b4f', 'denim' => '#4a6a8f', 'green' => '#2f7d4b', 'সবুজ' => '#2f7d4b', 'olive' => '#6b6b3a', 'yellow' => '#e8c23a', 'হলুদ' => '#e8c23a',
+        'orange' => '#e36d2b', 'pink' => '#e58fb0', 'purple' => '#6e4aa8', 'gold' => '#c9a46a', 'coffee' => '#4b3221', 'chocolate' => '#4b2e1e', 'multicolor' => 'conic-gradient(#c2272d,#e8c23a,#2f7d4b,#2a5bd7,#c2272d)'];
+    $out = []; $seen = [];
+    foreach (preg_split('/[\/,،&+]|\sand\s/u', mb_strtolower($colors)) as $w) {
+        $w = trim($w); if ($w === '') continue;
+        foreach ($M as $k => $hex) if (mb_strpos($w, $k) !== false && !isset($seen[$hex])) { $seen[$hex] = 1; $out[] = '<i style="background:' . $hex . '" title="' . e($w) . '"></i>'; break; }
+        if (count($out) >= 4) break;
+    }
+    return implode('', $out);
 }
 
 function product_card(array $p, string $colName = '', bool $eager = false): string {
@@ -180,6 +197,9 @@ function product_card(array $p, string $colName = '', bool $eager = false): stri
     $st = (int)$p['stock'];
     $h .= '<h3><a href="' . e(url('p/' . $p['slug'])) . '">' . e($p['name']) . '</a></h3>';
     $h .= '<div class="price"><b>' . money($p['price']) . '</b>' . ($d ? '<s>' . money($p['old_price']) . '</s>' : '') . '</div>';
+    $dots = color_dots($p['colors'] ?? '');
+    if ($dots) $h .= '<span class="dots">' . $dots . '</span>';
+    if (!empty($p['featured']) && $st > 3) $h .= '<span class="hot">' . icon('flame', 15) . t('Best seller', 'বেস্ট সেলার') . '</span>';
     if ($st > 0 && $st <= 3) $h .= '<span class="low">' . t('Only ' . $st . ' left', 'মাত্র ' . bn_num($st) . 'টি বাকি') . '</span>';
     $h .= '</div></article>';
     return $h;
