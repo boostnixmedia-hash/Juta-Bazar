@@ -26,9 +26,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')document.que
 
 /* WhatsApp popup: shows once per visit after N seconds, not on checkout */
 (function(){var pop=document.getElementById('wa-pop');var sec=+window.JB_WAPOP||0;if(!pop||!sec)return;
-  var seen=false;try{seen=sessionStorage.getItem('jb_wa')==='1'}catch(e){}
+  var seen=false;try{seen=(Date.now()-(+localStorage.getItem('jb_wa_t')||0))<15*60*1000}catch(e){}
   if(seen||/\/(checkout|order|account|login|register)/.test(location.pathname))return;
-  var close=function(){pop.hidden=true;try{sessionStorage.setItem('jb_wa','1')}catch(e){}};
+  var close=function(){pop.hidden=true;try{localStorage.setItem('jb_wa_t',String(Date.now()))}catch(e){}};
   setTimeout(function(){pop.hidden=false},sec*1000);
   pop.addEventListener('click',function(e){if(e.target.closest('[data-wa-close]')||e.target.closest('#wa-go'))close()});
 })();

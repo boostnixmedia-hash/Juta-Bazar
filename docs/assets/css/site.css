@@ -580,9 +580,10 @@ h2 small,.col-banner small,.promo small{display:block;font-family:var(--fb);font
 @media (prefers-reduced-motion:reduce){.hx-kick,.hx h1 .w,.hx p,.hx-btns,.hx-perks,.hx-tag,.hx-scroll{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}.hx h1 em,.hx-b1::after,.hx-scroll span{animation:none!important}}
 .lang-bn .hx-perks li{letter-spacing:0;font-size:13.5px}
 
-/* WhatsApp button: luxury black + gold */
-.wa-float{background:linear-gradient(145deg,#1c1813,#0d0b09);color:#e2c48f;border:1px solid rgba(201,164,106,.75);box-shadow:0 10px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);transition:transform .25s,box-shadow .25s}
-.wa-float::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(201,164,106,.5);animation:wapulse 2.6s ease-out infinite;pointer-events:none}
-.wa-float:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 0 4px rgba(201,164,106,.15)}
-@keyframes wapulse{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+/* WhatsApp button: official green */
+.wa-float{background:#25D366;color:#fff;border:0;box-shadow:0 10px 28px rgba(37,211,102,.35),0 4px 12px rgba(0,0,0,.18);transition:transform .25s,box-shadow .25s}
+.wa-float::before{content:"";position:absolute;inset:0;border-radius:50%;background:#25D366;z-index:-1;animation:wapulse 2.4s ease-out infinite;pointer-events:none}
+.wa-float:hover{transform:translateY(-3px) scale(1.04);background:#1ebe5b}
+.wa-pop-av{background:#25D366}
+@keyframes wapulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.6);opacity:0}}
 @media (prefers-reduced-motion:reduce){.wa-float::before{animation:none;opacity:0}}
