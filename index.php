@@ -62,14 +62,21 @@ function home(): void {
     <img class="hx-img" src="<?= e($heroImg) ?>" alt="<?= e($s['shop_name_en']) ?> new collection" fetchpriority="high" width="1600" height="1382">
   </picture>
   <div class="wrap hx-in">
-    <span class="hx-kick"><?= e(SL('hero_kicker')) ?></span>
-    <h1><?= e($s['hero_title_en'] ?: $s['hero_title']) ?></h1>
+    <span class="hx-kick"><i></i><?= e(SL('hero_kicker')) ?></span>
+    <?php $hw = preg_split('/\s+/u', trim($s['hero_title_en'] ?: $s['hero_title'])); $hl = count($hw) - 1; ?>
+    <h1><?php foreach ($hw as $k => $w): ?><span class="w" style="--d:<?= 0.15 + $k * 0.12 ?>s"><?= $k === $hl && $hl > 0 ? '<em>' . e($w) . '</em>' : e($w) ?></span><?= $k < $hl ? ' ' : '' ?><?php endforeach; ?></h1>
     <p><?= e(SL('hero_sub')) ?></p>
     <div class="hx-btns">
       <a class="btn hx-b1" href="<?= e(url('shop')) ?>"><?= e(SL('hero_btn')) ?> <?= icon('arrow', 18) ?></a>
       <?php if ($cols): ?><a class="btn hx-b2" href="#collections"><?= t('Collections', 'কালেকশন') ?></a><?php endif; ?>
     </div>
+    <ul class="hx-perks">
+      <li><?= icon('cash', 18) ?><?= t('Cash on delivery', 'ক্যাশ অন ডেলিভারি') ?></li>
+      <li><?= icon('truck', 18) ?><?= t('All over Bangladesh', 'সারা দেশে ডেলিভারি') ?></li>
+      <li><?= icon('swap', 18) ?><?= t('Easy exchange', 'সহজ এক্সচেঞ্জ') ?></li>
+    </ul>
   </div>
+  <a class="hx-scroll" href="#collections" aria-label="<?= t('Scroll down', 'নিচে দেখুন') ?>"><span></span></a>
   <?php if ($spot): ?>
   <a class="hx-tag" href="<?= e(url('p/' . $spot['slug'])) ?>"><img src="<?= e(p_first_image($spot)) ?>" alt="" width="64" height="64"><span><small><?= t('Pick of the week', 'এই সপ্তাহের সেরা') ?></small><b><?= e($spot['name']) ?></b><i><?= money($spot['price']) ?></i></span></a>
   <?php endif; ?>
