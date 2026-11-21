@@ -61,7 +61,7 @@ function page_head(string $title = '', string $desc = '', string $ogImg = ''): v
 <?php if ($ogImg): ?><meta property="og:image" content="<?= e($ogImg) ?>"><?php endif; ?>
 <link rel="icon" href="<?= e(S('logo') ? img_url(S('logo')) : url('assets/img/favicon.svg')) ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Jost:wght@400;500;600&family=Noto+Serif+Bengali:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Jost:wght@400;500;600&family=Noto+Serif+Bengali:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="<?= e(url('assets/css/site.css')) ?>?v=<?= JB_VERSION ?>">
 <style>:root{--accent:<?= e($acc) ?>}</style>
 <?php if ($s['pixel_id']): ?><script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','<?= e($s['pixel_id']) ?>');fbq('track','PageView');</script><?php endif; ?>
@@ -180,6 +180,33 @@ function color_dots(string $colors): string {
         if (count($out) >= 4) break;
     }
     return implode('', $out);
+}
+
+/** Auto-sliding offer banners (Admin > Settings > Offer banners). */
+function offer_slides(): array {
+    $o = [];
+    for ($i = 1; $i <= 4; $i++) {
+        if (S("of{$i}_on") !== '1' || trim(S("of{$i}_l1") . S("of{$i}_big")) === '') continue;
+        $img = S("of{$i}_img"); $lk = trim(S("of{$i}_link"));
+        $o[] = ['l1' => S("of{$i}_l1"), 'l2' => S("of{$i}_l2"), 'top' => S("of{$i}_top"), 'big' => S("of{$i}_big"), 'end' => S("of{$i}_end"), 'theme' => S("of{$i}_theme") ?: 'red',
+            'img' => $img ? (str_starts_with($img, 'assets/') ? url($img) : img_url($img)) : '', 'link' => $lk === '' ? url('shop') : (preg_match('#^https?://#', $lk) ? $lk : url(ltrim($lk, '/')))];
+    }
+    return $o;
+}
+function offer_slider(): string {
+    $sl = offer_slides(); if (!$sl) return '';
+    $h = '<section class="ofs" aria-label="Offers" data-ofs><div class="ofs-track">';
+    foreach ($sl as $i => $o) {
+        $h .= '<a class="of of-' . e($o['theme']) . '" href="' . e($o['link']) . '"' . ($i ? ' aria-hidden="true" tabindex="-1"' : '') . '>'
+            . '<span class="of-l"><span class="of-rays"></span><b class="of-t"><span>' . e($o['l1']) . '</span>' . ($o['l2'] !== '' ? '<span>' . e($o['l2']) . '</span>' : '') . '</b>'
+            . '<span class="of-cod">CASH ON<br>DELIVERY<small>ALL OVER BD</small></span></span>'
+            . '<span class="of-r"><span class="of-box"><i class="of-top">' . e($o['top']) . '</i><strong>' . e($o['big']) . '</strong>' . ($o['end'] !== '' ? '<em>' . e($o['end']) . '</em>' : '') . '</span><small class="of-note">' . e(S('of_note')) . '</small></span>'
+            . ($o['img'] ? '<img class="of-img" src="' . e($o['img']) . '" alt="" ' . ($i ? 'loading="lazy"' : 'fetchpriority="high"') . '>' : '')
+            . '</a>';
+    }
+    $h .= '</div>';
+    if (count($sl) > 1) { $h .= '<div class="ofs-dots">'; foreach ($sl as $i => $o) $h .= '<button type="button" aria-label="Offer ' . ($i + 1) . '"' . ($i ? '' : ' class="on"') . '></button>'; $h .= '</div>'; }
+    return $h . '</section>';
 }
 
 function product_card(array $p, string $colName = '', bool $eager = false): string {

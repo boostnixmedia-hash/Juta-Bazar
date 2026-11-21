@@ -167,22 +167,53 @@ function shop(string $slug = ''): void {
     page_head($title, $col ? col_tag($col) : '');
     $base = $col ? url('c/' . $col['slug']) : url('shop');
     ?>
-<?php $maxOff = 0; foreach ($items as $it) $maxOff = max($maxOff, discount_pct($it)); $bimg = $col ? img_url($col['image']) : url('assets/img/demo/hero-full-s.webp'); ?>
+<?php $maxOff = 0; foreach ($items as $it) $maxOff = max($maxOff, discount_pct($it)); $bimg = $col ? img_url($col['image']) : url('assets/img/demo/hero-full.webp');
+  $sortOpts = ['new' => t('Featured', 'বাছাই করা'), 'low' => t('Price: low to high', 'দাম: কম থেকে বেশি'), 'high' => t('Price: high to low', 'দাম: বেশি থেকে কম'), 'off' => t('Biggest discount', 'সবচেয়ে বেশি ছাড়')];
+  $keep = function (array $set) use ($q, $sort, $size, $base) { $v = array_filter(array_merge(['q' => $q, 'sort' => $sort === 'new' ? '' : $sort, 'size' => $size], $set), fn($x) => $x !== '' && $x !== null); return $base . ($v ? '?' . http_build_query($v) : ''); }; ?>
+<div class="wrap lx-crumbs"><nav class="crumbs" aria-label="Breadcrumb"><a href="<?= e(url()) ?>"><?= t('Home', 'হোম') ?></a> / <?= $col ? '<a href="' . e(url('shop')) . '">' . t('All Shoes', 'সব জুতা') . '</a> / ' : '' ?><span><?= e($title) ?></span></nav></div>
+<?php $ofs = offer_slider(); if ($ofs): echo $ofs; else: ?>
 <section class="lx-banner">
-  <img src="<?= e($bimg) ?>" alt="<?= e($title) ?>" width="800" height="500" fetchpriority="high">
+  <img src="<?= e($bimg) ?>" alt="<?= e($title) ?>" width="1600" height="600" fetchpriority="high">
   <div class="lx-bt">
     <small><?= $col ? t('Collection', 'কালেকশন') : 'JUTAR BAZAR' ?></small>
     <b><?= e($col ? ($col['name_en'] ?: $col['name']) : t('All Shoes', 'সব জুতা')) ?></b>
+    <?php if ($col && col_tag($col)): ?><p><?= e(col_tag($col)) ?></p><?php endif; ?>
     <?php if ($maxOff): ?><span class="lx-off"><?= t('Up to', 'সর্বোচ্চ') ?> <em><?= bn_num($maxOff) ?>%</em> <?= t('off', 'ছাড়') ?></span><?php endif; ?>
   </div>
 </section>
+<?php endif; ?>
+<div class="wrap lx-wrap">
 <div class="lx-bar" id="lx-bar">
-  <button type="button" class="lx-fbtn" data-lx-open aria-label="<?= t('Filter and sort', 'ফিল্টার ও সাজান') ?>"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><?php if ($size !== '' || $sort !== 'new'): ?><i></i><?php endif; ?></button>
-  <h2><?= e($title) ?> <small><?= bn_num(count($items)) ?></small></h2>
+  <button type="button" class="lx-fbtn" data-lx-open aria-label="<?= t('Filter and sort', 'ফিল্টার ও সাজান') ?>"><span class="lx-ft" data-on="<?= t('Hide filters', 'ফিল্টার লুকান') ?>" data-off="<?= t('Show filters', 'ফিল্টার দেখান') ?>"><?= t('Hide filters', 'ফিল্টার লুকান') ?></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><?php if ($size !== '' || $sort !== 'new'): ?><i></i><?php endif; ?></button>
+  <h1><?= e($title) ?> <small><?= bn_num(count($items)) ?></small></h1>
   <div class="lx-view" role="group" aria-label="<?= t('Layout', 'দেখার ধরন') ?>">
-    <button type="button" data-cols="1" aria-label="<?= t('One per row', 'এক সারিতে একটি') ?>"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="1" y="1" width="16" height="16" fill="currentColor"/></svg></button>
+    <button type="button" data-cols="1" class="m" aria-label="<?= t('One per row', 'এক সারিতে একটি') ?>"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="1" y="1" width="16" height="16" fill="currentColor"/></svg></button>
     <button type="button" data-cols="2" class="on" aria-label="<?= t('Two per row', 'এক সারিতে দুটি') ?>"><svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><rect x="1" y="1" width="7" height="7"/><rect x="10" y="1" width="7" height="7"/><rect x="1" y="10" width="7" height="7"/><rect x="10" y="10" width="7" height="7"/></svg></button>
+    <button type="button" data-cols="3" class="d" aria-label="<?= t('Three per row', 'এক সারিতে তিনটি') ?>"><svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><rect x="0" y="1" width="5" height="7"/><rect x="6.5" y="1" width="5" height="7"/><rect x="13" y="1" width="5" height="7"/><rect x="0" y="10" width="5" height="7"/><rect x="6.5" y="10" width="5" height="7"/><rect x="13" y="10" width="5" height="7"/></svg></button>
+    <button type="button" data-cols="4" class="d" aria-label="<?= t('Four per row', 'এক সারিতে চারটি') ?>"><svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><?php for ($r = 0; $r < 2; $r++) for ($c2 = 0; $c2 < 4; $c2++): ?><rect x="<?= $c2 * 4.7 ?>" y="<?= 1 + $r * 9 ?>" width="3.6" height="7"/><?php endfor; ?></svg></button>
   </div>
+  <form class="lx-sort" method="get" action="<?= e($base) ?>"><?php if ($q !== ''): ?><input type="hidden" name="q" value="<?= e($q) ?>"><?php endif; ?><?php if ($size !== ''): ?><input type="hidden" name="size" value="<?= e($size) ?>"><?php endif; ?>
+    <label><?= t('Sort by', 'সাজান') ?>: <select name="sort" onchange="this.form.submit()"><?php foreach ($sortOpts as $k => $v): ?><option value="<?= $k ?>"<?= $sort === $k ? ' selected' : '' ?>><?= $v ?></option><?php endforeach; ?></select></label>
+  </form>
+</div>
+<div class="lx-body" id="lx-body">
+  <aside class="lx-side" aria-label="<?= t('Filters', 'ফিল্টার') ?>">
+    <details open><summary><?= t('Collection', 'কালেকশন') ?></summary>
+      <ul class="lx-links"><li><a class="<?= !$col ? 'on' : '' ?>" href="<?= e(url('shop')) ?>"><?= t('All shoes', 'সব জুতা') ?></a></li><?php foreach ($cols as $c): ?><li><a class="<?= $col && $col['id'] == $c['id'] ? 'on' : '' ?>" href="<?= e(url('c/' . $c['slug'])) ?>"><?= e(col_name($c)) ?></a></li><?php endforeach; ?></ul>
+    </details>
+    <details open><summary><?= t('Size', 'সাইজ') ?></summary>
+      <div class="lx-szs"><a class="<?= $size === '' ? 'on' : '' ?>" href="<?= e($keep(['size' => ''])) ?>"><?= t('All', 'সব') ?></a><?php for ($z = 36; $z <= 46; $z++): ?><a class="<?= $size === (string)$z ? 'on' : '' ?>" href="<?= e($keep(['size' => (string)$z])) ?>"><?= bn_num($z) ?></a><?php endfor; ?></div>
+    </details>
+    <details open><summary><?= t('Sort by', 'সাজান') ?></summary>
+      <ul class="lx-links"><?php foreach ($sortOpts as $k => $v): ?><li><a class="<?= $sort === $k ? 'on' : '' ?>" href="<?= e($keep(['sort' => $k === 'new' ? '' : $k])) ?>"><?= $v ?></a></li><?php endforeach; ?></ul>
+    </details>
+    <?php if ($size !== '' || $sort !== 'new'): ?><a class="lx-clear" href="<?= e($keep(['size' => '', 'sort' => ''])) ?>"><?= icon('x', 14) ?> <?= t('Clear filters', 'ফিল্টার মুছুন') ?></a><?php endif; ?>
+  </aside>
+  <section class="lx-list"><h2 class="sr"><?= t('Products', 'জুতা') ?></h2>
+  <?php if ($items): ?><div class="grid" id="lx-grid"><?php foreach ($items as $i => $p) echo product_card($p, $col ? '' : ($colName[$p['collection_id']] ?? ''), $i < 4); ?></div>
+  <?php else: ?><div class="empty"><p><?= t('No shoes found right now.', 'এই মুহূর্তে কোনো জুতা পাওয়া যায়নি।') ?></p><a class="btn" href="<?= e(url('shop')) ?>"><?= t('View all shoes', 'সব জুতা দেখুন') ?></a></div><?php endif; ?>
+  </section>
+</div>
 </div>
 <div class="lx-sheet" id="lx-sheet" hidden>
   <div class="lx-sheet-bg" data-lx-close></div>
@@ -198,30 +229,6 @@ function shop(string $slug = ''): void {
     <div class="lx-sheet-f"><a class="btn btn-line" href="<?= e($base . ($q !== '' ? '?q=' . rawurlencode($q) : '')) ?>"><?= t('Clear', 'মুছুন') ?></a><button class="btn" type="submit"><?= t('Show results', 'ফলাফল দেখুন') ?></button></div>
   </form>
 </div>
-<section class="list-head">
-  <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="<?= e(url()) ?>"><?= t('Home', 'হোম') ?></a> / <?= $col ? '<a href="' . e(url('shop')) . '">' . t('All Shoes', 'সব জুতা') . '</a> / ' : '' ?><span><?= e($title) ?></span></nav>
-    <h1><?= e($title) ?> <small><?= bn_num(count($items)) ?> <?= t('items', 'টি জুতা') ?></small></h1>
-    <?php if ($col && col_tag($col)): ?><p><?= e(col_tag($col)) ?></p><?php endif; ?>
-    <div class="chips" >
-      <a class="chip<?= !$col ? ' on' : '' ?>" href="<?= e(url('shop')) ?>"><?= t('All', 'সব') ?></a>
-      <?php foreach ($cols as $c): ?><a class="chip<?= $col && $col['id'] == $c['id'] ? ' on' : '' ?>" href="<?= e(url('c/' . $c['slug'])) ?>"><?= e(col_name($c)) ?></a><?php endforeach; ?>
-    </div>
-    <form class="filters" method="get" action="<?= e($base) ?>">
-      <?php if ($q !== ''): ?><input type="hidden" name="q" value="<?= e($q) ?>"><?php endif; ?>
-      <label><?= t('Sort', 'সাজান') ?> <select name="sort" onchange="this.form.submit()">
-        <?php foreach (['new' => t('Featured', 'বাছাই করা'), 'low' => t('Price: low to high', 'দাম: কম থেকে বেশি'), 'high' => t('Price: high to low', 'দাম: বেশি থেকে কম'), 'off' => t('Biggest discount', 'সবচেয়ে বেশি ছাড়')] as $k => $v): ?><option value="<?= $k ?>"<?= $sort === $k ? ' selected' : '' ?>><?= $v ?></option><?php endforeach; ?>
-      </select></label>
-      <label><?= t('Size', 'সাইজ') ?> <select name="size" onchange="this.form.submit()"><option value=""><?= t('All sizes', 'সব সাইজ') ?></option>
-        <?php for ($z = 36; $z <= 46; $z++): ?><option value="<?= $z ?>"<?= $size === (string)$z ? ' selected' : '' ?>><?= bn_num($z) ?></option><?php endfor; ?>
-      </select></label>
-    </form>
-  </div>
-</section>
-<section class="sec pt0 lx-list"><div class="wrap"><h2 class="sr"><?= t('Products', 'জুতা') ?></h2>
-  <?php if ($items): ?><div class="grid" id="lx-grid"><?php foreach ($items as $i => $p) echo product_card($p, $col ? '' : ($colName[$p['collection_id']] ?? ''), $i < 4); ?></div>
-  <?php else: ?><div class="empty"><p><?= t('No shoes found right now.', 'এই মুহূর্তে কোনো জুতা পাওয়া যায়নি।') ?></p><a class="btn" href="<?= e(url('shop')) ?>"><?= t('View all shoes', 'সব জুতা দেখুন') ?></a></div><?php endif; ?>
-</div></section>
 <?php
     page_foot();
 }

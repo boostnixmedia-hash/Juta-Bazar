@@ -7,7 +7,7 @@ date_default_timezone_set('Asia/Dhaka');
 mb_internal_encoding('UTF-8');
 
 define('JB_ROOT', dirname(__DIR__));
-define('JB_VERSION', '1.5.1');
+define('JB_VERSION', '1.6.0');
 
 /** Private data folder: ~/jutarbazar-data (outside public_html) if possible, else ./data (blocked by .htaccess). */
 function jb_data_dir(): string {
@@ -124,6 +124,43 @@ function jb_defaults(): array {
         'wa_popup_bn' => 'জুতা খুঁজছেন? সাইজ, দাম বা অর্ডার নিয়ে যেকোনো প্রশ্ন হোয়াটসঅ্যাপে করুন।',
         'footer_note_bn' => 'প্রতিটি জোড়ায় আরাম, স্টাইল আর আস্থা।',
         'size_guide' => '1',
+        'of1_on' => '1',
+        'of1_l1' => 'WEEKEND',
+        'of1_l2' => 'BONANZA',
+        'of1_top' => 'FLAT',
+        'of1_big' => '20%',
+        'of1_end' => 'OFF!',
+        'of1_theme' => 'red',
+        'of1_img' => 'assets/img/demo/offer/snk-3.webp',
+        'of1_link' => 'shop',
+        'of2_on' => '1',
+        'of2_l1' => 'NEW',
+        'of2_l2' => 'ARRIVALS',
+        'of2_top' => 'UP TO',
+        'of2_big' => '15%',
+        'of2_end' => 'OFF!',
+        'of2_theme' => 'dark',
+        'of2_img' => 'assets/img/demo/offer/frm-2.webp',
+        'of2_link' => 'c/formal',
+        'of3_on' => '1',
+        'of3_l1' => 'EID',
+        'of3_l2' => 'SPECIAL',
+        'of3_top' => 'FLAT',
+        'of3_big' => '25%',
+        'of3_end' => 'OFF!',
+        'of3_theme' => 'maroon',
+        'of3_img' => 'assets/img/demo/offer/lof-1.webp',
+        'of3_link' => 'c/loafers',
+        'of4_on' => '1',
+        'of4_l1' => 'SUMMER',
+        'of4_l2' => 'SANDALS',
+        'of4_top' => 'FROM',
+        'of4_big' => '৳990',
+        'of4_end' => 'ONLY',
+        'of4_theme' => 'navy',
+        'of4_img' => 'assets/img/demo/offer/snd-2.webp',
+        'of4_link' => 'c/sandals',
+        'of_note' => '*T&C apply',
     ];
 }
 function settings(): array {

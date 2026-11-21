@@ -220,3 +220,6 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--gold)!impor
 @media (min-width:1000px){.side{top:64px}}
 .welcome::after{background:var(--gold);opacity:.12}
 .welcome .btn.gold{background:var(--gold);border-color:var(--gold);color:#14120f}
+.of-adm{border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px;background:var(--soft)}
+.of-adm-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.of-adm-h b{font-family:'Noto Serif Bengali',serif;font-size:17px}
