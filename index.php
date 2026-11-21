@@ -82,6 +82,8 @@ function home(): void {
   <?php endif; ?>
 </section>
 
+<?= offer_slider() ?>
+
 <?php if ($cols): ?>
 <section class="cols" id="collections" aria-label="Collections">
   <div class="wrap">

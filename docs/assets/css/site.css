@@ -841,3 +841,6 @@ h2 small,.col-banner small,.promo small{display:block;font-family:var(--fb);font
   .of-brand{font-size:2.1cqw;top:6%}
 }
 .lang-bn .of-brand{letter-spacing:.32em!important}
+/* home: offer slider right under the hero */
+.hx+.ofs{margin:0}
+@media (min-width:900px){.hx+.ofs .ofs-dots{bottom:18px}}
