@@ -7,7 +7,7 @@ date_default_timezone_set('Asia/Dhaka');
 mb_internal_encoding('UTF-8');
 
 define('JB_ROOT', dirname(__DIR__));
-define('JB_VERSION', '1.8.6');
+define('JB_VERSION', '1.8.7');
 
 /** Private data folder: ~/jutarbazar-data (outside public_html) if possible, else ./data (blocked by .htaccess). */
 function jb_data_dir(): string {
