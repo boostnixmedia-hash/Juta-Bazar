@@ -704,3 +704,5 @@ h2 small,.col-banner small,.promo small{display:block;font-family:var(--fb);font
   .more-tile{min-height:0;flex:0 0 48%;aspect-ratio:3/4.6}
   .more-tile b{font-size:22px}
 }
+/* PC: first screen shows only the hero */
+@media (min-width:900px){.hx{min-height:max(560px,calc(100vh - var(--hdr-pc,79px)));min-height:max(560px,calc(100svh - var(--hdr-pc,79px)))}}

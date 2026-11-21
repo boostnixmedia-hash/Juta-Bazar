@@ -146,3 +146,5 @@ if(co){
       if(hide){h.classList.add('hide');document.body.classList.add('hdr-hidden')}else if(show){h.classList.remove('hide');document.body.classList.remove('hdr-hidden')}}
     y0=y;tick=false})},{passive:true});
 })();
+/* PC: hero fills the screen under the header */
+(function(){var h=document.querySelector('.hdr');if(!h)return;function s(){document.documentElement.style.setProperty('--hdr-pc',h.offsetHeight+'px')}s();window.addEventListener('resize',s)})();
