@@ -207,8 +207,8 @@ if ($isPost) {
             go('orders', [], 'অর্ডার মুছে ফেলা হয়েছে');
         case 'settings_save':
             $allowed = array_keys(jb_defaults());
-            foreach ($allowed as $k) if (isset($_POST[$k]) && !in_array($k, ['logo', 'hero_image', 'promo_image', 'of1_img', 'of2_img', 'of3_img', 'of4_img'], true)) set_setting($k, trim((string)$_POST[$k]));
-            for ($i = 1; $i <= 4; $i++) { if ($p = upload_field("of{$i}_img_file")) set_setting("of{$i}_img", $p); elseif (!empty($_POST["of{$i}_img_clear"])) set_setting("of{$i}_img", jb_defaults()["of{$i}_img"]); }
+            foreach ($allowed as $k) if (isset($_POST[$k]) && !in_array($k, ['logo', 'hero_image', 'promo_image', 'of1_img', 'of2_img', 'of3_img', 'of4_img', 'of5_img', 'of6_img', 'of7_img'], true)) set_setting($k, trim((string)$_POST[$k]));
+            for ($i = 1; $i <= 7; $i++) { if ($p = upload_field("of{$i}_img_file")) set_setting("of{$i}_img", $p); elseif (!empty($_POST["of{$i}_img_clear"])) set_setting("of{$i}_img", jb_defaults()["of{$i}_img"]); }
             foreach (['logo', 'hero_image', 'promo_image'] as $k) { if ($p = upload_field($k . '_file')) set_setting($k, $p); elseif (!empty($_POST[$k . '_clear'])) set_setting($k, ''); }
             go('settings', ['tab' => $_POST['tab'] ?? ''], 'সেটিংস সেভ হয়েছে ✓');
         case 'cust':
@@ -616,8 +616,8 @@ case 'settings':
         <div class="g2"><?= $fld('about', 'আমাদের সম্পর্কে (ইংরেজি)', 'area') ?><?= $fld('about_bn', 'আমাদের সম্পর্কে (বাংলা)', 'area') ?></div>
         <div class="g2"><?= $fld('footer_note', 'ফুটারের লেখা (ইংরেজি)') ?><?= $fld('footer_note_bn', 'ফুটারের লেখা (বাংলা)') ?></div>
       <?php elseif ($tab === 'offers'): ?>
-        <p class="muted">কালেকশন আর "সব জুতা" পেজের উপরে এই ব্যানারগুলো নিজে নিজে স্লাইড হয় (প্রতি ৪.৫ সেকেন্ডে)। ৪টা পর্যন্ত দিতে পারবেন। বড় লেখাগুলো ইংরেজিতে সবচেয়ে সুন্দর দেখায়। আসল অফার না থাকলে ব্যানারটা বন্ধ রাখুন।</p>
-        <?php $TH = ['red' => 'লাল', 'dark' => 'কালো-সোনালি', 'maroon' => 'মেরুন', 'navy' => 'নীল']; $dj = jb_defaults(); for ($i = 1; $i <= 4; $i++): $im = $s["of{$i}_img"]; ?>
+        <p class="muted">কালেকশন আর "সব জুতা" পেজের উপরে এই ব্যানারগুলো নিজে নিজে স্লাইড হয় (প্রতি ৪.৫ সেকেন্ডে)। ৭টা পর্যন্ত দিতে পারবেন। বড় লেখাগুলো ইংরেজিতে সবচেয়ে সুন্দর দেখায়। "বক্সের বড় লেখা"য় <b>auto</b> লিখলে ওই কালেকশনের জুতার আসল সবচেয়ে বেশি ছাড় (%) নিজে থেকে বসে যাবে। শুধু সত্যি তথ্য দিন।</p>
+        <?php $TH = ['red' => 'লাল', 'dark' => 'কালো-সোনালি', 'maroon' => 'মেরুন', 'navy' => 'নীল', 'green' => 'সবুজ']; $dj = jb_defaults(); for ($i = 1; $i <= 7; $i++): $im = $s["of{$i}_img"]; ?>
         <div class="of-adm">
           <div class="of-adm-h"><b>ব্যানার <?= bn_num($i) ?></b><label class="inline-check"><input type="hidden" name="of<?= $i ?>_on" value="0"><input type="checkbox" name="of<?= $i ?>_on" value="1"<?= $s["of{$i}_on"] === '1' ? ' checked' : '' ?>> দেখাবে</label></div>
           <div class="g2"><?= $fld("of{$i}_l1", 'বড় লেখা, প্রথম লাইন', 'text', 'WEEKEND') ?><?= $fld("of{$i}_l2", 'বড় লেখা, দ্বিতীয় লাইন', 'text', 'BONANZA') ?></div>

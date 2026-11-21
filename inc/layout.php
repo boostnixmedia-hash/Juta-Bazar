@@ -185,10 +185,17 @@ function color_dots(string $colors): string {
 /** Auto-sliding offer banners (Admin > Settings > Offer banners). */
 function offer_slides(): array {
     $o = [];
-    for ($i = 1; $i <= 4; $i++) {
+    for ($i = 1; $i <= 7; $i++) {
         if (S("of{$i}_on") !== '1' || trim(S("of{$i}_l1") . S("of{$i}_big")) === '') continue;
         $img = S("of{$i}_img"); $lk = trim(S("of{$i}_link"));
-        $o[] = ['l1' => S("of{$i}_l1"), 'l2' => S("of{$i}_l2"), 'top' => S("of{$i}_top"), 'big' => S("of{$i}_big"), 'end' => S("of{$i}_end"), 'theme' => S("of{$i}_theme") ?: 'red',
+        $big = S("of{$i}_big"); $top = S("of{$i}_top"); $end = S("of{$i}_end");
+        if (strtolower(trim($big)) === 'auto') { // real biggest discount in the linked collection (or the whole shop)
+            $cs = preg_match('#^c/([\w-]+)#', $lk, $mm) ? $mm[1] : '';
+            $st = db()->prepare('SELECT MAX(CASE WHEN p.old_price>p.price AND p.price>0 THEN ROUND(100-p.price*100.0/p.old_price) ELSE 0 END) FROM products p LEFT JOIN collections c ON c.id=p.collection_id WHERE p.active=1' . ($cs ? ' AND c.slug=?' : ''));
+            $st->execute($cs ? [$cs] : []); $mx = (int)$st->fetchColumn();
+            if ($mx > 0) $big = $mx . '%'; else { $top = 'NEW'; $big = 'IN'; $end = 'SHOP'; }
+        }
+        $o[] = ['l1' => S("of{$i}_l1"), 'l2' => S("of{$i}_l2"), 'top' => $top, 'big' => $big, 'end' => $end, 'theme' => S("of{$i}_theme") ?: 'red',
             'img' => $img ? (str_starts_with($img, 'assets/') ? url($img) : img_url($img)) : '', 'link' => $lk === '' ? url('shop') : (preg_match('#^https?://#', $lk) ? $lk : url(ltrim($lk, '/')))];
     }
     return $o;
@@ -197,10 +204,10 @@ function offer_slider(): string {
     $sl = offer_slides(); if (!$sl) return '';
     $h = '<section class="ofs" aria-label="Offers" data-ofs><div class="ofs-track">';
     foreach ($sl as $i => $o) {
-        $h .= '<a class="of of-' . e($o['theme']) . '" href="' . e($o['link']) . '"' . ($i ? ' aria-hidden="true" tabindex="-1"' : '') . '>'
+        $h .= '<a class="of of-' . e($o['theme']) . ($i ? '' : ' on') . '" href="' . e($o['link']) . '"' . ($i ? ' aria-hidden="true" tabindex="-1"' : '') . '>'
             . '<span class="of-l"><span class="of-rays"></span><b class="of-t"><span>' . e($o['l1']) . '</span>' . ($o['l2'] !== '' ? '<span>' . e($o['l2']) . '</span>' : '') . '</b>'
-            . '<span class="of-cod">CASH ON<br>DELIVERY<small>ALL OVER BD</small></span></span>'
-            . '<span class="of-r"><span class="of-box"><i class="of-top">' . e($o['top']) . '</i><strong>' . e($o['big']) . '</strong>' . ($o['end'] !== '' ? '<em>' . e($o['end']) . '</em>' : '') . '</span><small class="of-note">' . e(S('of_note')) . '</small></span>'
+            . '<span class="of-brand">' . e(S('shop_name_en') ?: 'JUTAR BAZAR') . '</span>' . (stripos($o['l1'] . $o['l2'], 'cash') === false ? '<span class="of-cod">CASH ON<br>DELIVERY<small>ALL OVER BD</small></span>' : '') . '</span>'
+            . '<span class="of-r"><span class="of-box"><i class="of-top">' . e($o['top']) . '</i><strong>' . e($o['big']) . '</strong>' . ($o['end'] !== '' ? '<em>' . e($o['end']) . '</em>' : '') . '</span>' . (S('of_note') !== '' ? '<small class="of-note">' . e(S('of_note')) . '</small>' : '') . '</span>'
             . ($o['img'] ? '<img class="of-img" src="' . e($o['img']) . '" alt="" ' . ($i ? 'loading="lazy"' : 'fetchpriority="high"') . '>' : '')
             . '</a>';
     }

@@ -816,3 +816,28 @@ h2 small,.col-banner small,.promo small{display:block;font-family:var(--fb);font
   .of-top{font-size:4.6cqw}.of-box strong{font-size:10.5cqw}
   .of-box em{width:7.6cqw;height:7.6cqw;font-size:2.3cqw;right:-1.6cqw}
 }
+/* offer banners v1.7: more polish + motion */
+.of-green{--c1:#11764a;--c2:#063d26;--ts:#022014}
+.of-l::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 30% 45%,rgba(255,255,255,.16),transparent 60%);pointer-events:none}
+.of-brand{position:absolute;left:2.4%;top:7%;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.35cqw;letter-spacing:.32em;color:rgba(255,255,255,.92);z-index:2}
+.of-brand::after{content:"";display:block;width:3cqw;height:1px;background:rgba(255,255,255,.6);margin-top:.5cqw}
+.of-t{background-size:100% 100%}
+.of-box strong{background-size:200% 100%;animation:ofshine 3.2s linear infinite}
+@keyframes ofshine{0%{background-position:0 0}100%{background-position:-200% 0}}
+.of-box strong{background-image:linear-gradient(100deg,#ffb000 0%,#ffd400 20%,#fff7a6 30%,#ffd400 40%,#ffb000 50%,#ffd400 70%,#fff7a6 80%,#ffd400 90%,#ffb000 100%)}
+.of-img{opacity:0;transform:translate(-20%,-50%) rotate(-22deg) scale(.9);transition:opacity .6s,transform 1s cubic-bezier(.2,.8,.2,1)}
+.of.on .of-img{opacity:1;transform:translate(-58%,-50%) rotate(-7deg);animation:offloat 4s 1s ease-in-out infinite}
+@keyframes offloat{0%,100%{translate:0 0}50%{translate:0 -1.4%}}
+.of-t,.of-box,.of-cod{opacity:0;transition:opacity .5s,translate .7s cubic-bezier(.2,.8,.2,1)}
+.of-t{translate:-6% 0}.of-box{translate:6% 0}.of-cod{translate:0 20%}
+.of.on .of-t,.of.on .of-box,.of.on .of-cod{opacity:1;translate:0 0}
+.of.on .of-box{transition-delay:.25s}.of.on .of-cod{transition-delay:.4s}
+.of-box em{animation:ofpulse 2.4s ease-in-out infinite}
+@keyframes ofpulse{0%,100%{scale:1}50%{scale:1.08}}
+.of-r::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 60% at 55% 50%,rgba(255,255,255,.75),transparent 70%)}
+@media (prefers-reduced-motion:reduce){.of-img,.of-t,.of-box,.of-cod{opacity:1!important;translate:0 0!important;animation:none!important;transition:none!important}.of-img{transform:translate(-58%,-50%) rotate(-7deg)!important}.of-box strong,.of-box em{animation:none}}
+@container (max-width:700px){
+  .of.on .of-img{transform:translate(-58%,-50%) rotate(-7deg)}
+  .of-brand{font-size:2.1cqw;top:6%}
+}
+.lang-bn .of-brand{letter-spacing:.32em!important}

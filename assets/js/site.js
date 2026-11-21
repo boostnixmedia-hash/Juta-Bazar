@@ -154,7 +154,7 @@ if(co){
 /* offer slider: auto slide every 4.5 s, swipe on phone */
 (function(){[].forEach.call(document.querySelectorAll('[data-ofs]'),function(r){var t=r.querySelector('.ofs-track'),d=[].slice.call(r.querySelectorAll('.ofs-dots button')),n=t.children.length,i=0,pause=false,tm;if(n<2)return;
   function go(k){i=(k+n)%n;t.scrollTo({left:i*t.clientWidth,behavior:'smooth'})}
-  function mark(){var k=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));d.forEach(function(b,j){b.classList.toggle('on',j===k)});[].forEach.call(t.children,function(s,j){s.setAttribute('aria-hidden',j===k?'false':'true');s.tabIndex=j===k?0:-1});i=k}
+  function mark(){var k=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));d.forEach(function(b,j){b.classList.toggle('on',j===k)});[].forEach.call(t.children,function(s,j){s.setAttribute('aria-hidden',j===k?'false':'true');s.classList.toggle('on',j===k);s.tabIndex=j===k?0:-1});i=k}
   t.addEventListener('scroll',function(){clearTimeout(t._s);t._s=setTimeout(mark,80)},{passive:true});
   d.forEach(function(b,j){b.addEventListener('click',function(){go(j)})});
   r.addEventListener('mouseenter',function(){pause=true});r.addEventListener('mouseleave',function(){pause=false});
