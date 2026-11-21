@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>নতুন প্রোডাক্ট | অ্যাডমিন</title>
+<link rel="icon" href="assets/img/favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;500;600;700;800&amp;display=swap">
+<link rel="stylesheet" href="admin/admin.css?v=1.3.0">
+</head><body class=""><div style="position:sticky;top:0;z-index:999;background:#141210;color:#fff;text-align:center;padding:8px 12px;font:500 14px/1.5 'Noto Sans Bengali',sans-serif">ডেমো অ্যাডমিন প্যানেল (পাসওয়ার্ড ছাড়া): ঘুরে দেখা যাবে, কিন্তু এখানে কিছু সেভ হবে না। আসল প্যানেল cPanel-এ আপলোডের পর <b>আপনারডোমেইন.com/admin</b>-এ পাবেন, তখন প্রথমবার পাসওয়ার্ড সেট করবেন। <a href="index.html" style="color:#e7cfa6;text-decoration:underline">সাইটে ফিরে যান</a></div>
+<header class="top">
+  <button class="menu-btn" onclick="document.body.classList.toggle('nav-open')" aria-label="মেনু">☰</button>
+  <a class="brand" href="admin.html"><img src="assets/img/favicon.svg" alt=""><span>জুতার বাজার<small>অ্যাডমিন প্যানেল</small></span></a>
+  <a class="view-site" href="index.html" target="_blank">সাইট দেখুন ↗</a>
+</header>
+<nav class="side">
+      <a href="admin.html" class=""><span>🏠</span>ড্যাশবোর্ড</a>
+      <a href="admin-orders.html" class=""><span>📦</span>অর্ডার<i class="pill">৩</i></a>
+      <a href="admin-product.html" class="on"><span>➕</span>নতুন প্রোডাক্ট পোস্ট</a>
+      <a href="admin-products.html" class=""><span>👟</span>সব প্রোডাক্ট</a>
+      <a href="admin-cols.html" class=""><span>🗂️</span>কালেকশন</a>
+      <a href="admin-settings.html" class=""><span>⚙️</span>সাইট সেটিংস</a>
+    <a href="#"><span>🚪</span>লগআউট</a>
+</nav>
+<div class="nav-bg" onclick="document.body.classList.remove('nav-open')"></div>
+<main class="main">
+    <div class="ph"><h1>➕ নতুন প্রোডাক্ট পোস্ট</h1></div>
+    <form method="post" action="#" class="form pform" id="pform"><input type="hidden" name="csrf" value="8f1d60d0b81534b4dab8050d48fd2b11"><input type="hidden" name="id" value="0">
+    <div class="cols2 wide">
+      <div>
+        <section class="box">
+          <h2>১. ছবি <small>প্রথম ছবিটাই মূল ছবি। একসাথে অনেক ছবি দিতে পারবেন।</small></h2>
+          <div class="imgs" id="imgs">
+                        <label class="im add"><input type="file" accept="image/*" multiple="" id="imgfile"><span>📷<br>ছবি যোগ করুন</span></label>
+          </div>
+          <p class="muted sm">টেনে এনে ছবির ক্রম বদলাতে পারবেন। বড় ছবি নিজে থেকেই ছোট হয়ে আপলোড হবে।</p>
+        </section>
+        <section class="box">
+          <h2>২. প্রোডাক্টের তথ্য</h2>
+          <label>প্রোডাক্টের নাম *<input name="name" id="f-name" value="" required="" placeholder="যেমন: AeroFlex Runner"></label>
+          <div class="g2">
+            <label>কালেকশন *<select name="collection_id" id="f-col"><option value="0">কালেকশন বাছুন</option><option value="1">রানিং শু</option><option value="2">স্নিকার্স</option><option value="3">লোফার</option><option value="4">ফরমাল শু</option><option value="5">স্যান্ডেল</option></select></label>
+            <label>ব্র্যান্ড<input name="brand" id="f-brand" value="" placeholder="ঐচ্ছিক"></label>
+          </div>
+          <div class="g3">
+            <label>বিক্রয় দাম (৳) *<input type="number" name="price" id="f-price" value="" min="0" required=""></label>
+            <label>আগের দাম (৳)<input type="number" name="old_price" id="f-old" value="" min="0" placeholder="ছাড় দেখাতে"></label>
+            <label>স্টক (কয়টা আছে)<input type="number" name="stock" value="10" min="0"></label>
+          </div>
+          <div class="lbl">সাইজ <small>(যেগুলো আছে সেগুলোতে চাপুন)</small></div>
+          <div class="chips" id="sizes"><label><input type="checkbox" name="sizes[]" value="35"><span>৩৫</span></label><label><input type="checkbox" name="sizes[]" value="36"><span>৩৬</span></label><label><input type="checkbox" name="sizes[]" value="37"><span>৩৭</span></label><label><input type="checkbox" name="sizes[]" value="38"><span>৩৮</span></label><label><input type="checkbox" name="sizes[]" value="39" checked=""><span>৩৯</span></label><label><input type="checkbox" name="sizes[]" value="40" checked=""><span>৪০</span></label><label><input type="checkbox" name="sizes[]" value="41" checked=""><span>৪১</span></label><label><input type="checkbox" name="sizes[]" value="42" checked=""><span>৪২</span></label><label><input type="checkbox" name="sizes[]" value="43" checked=""><span>৪৩</span></label><label><input type="checkbox" name="sizes[]" value="44"><span>৪৪</span></label><label><input type="checkbox" name="sizes[]" value="45"><span>৪৫</span></label><label><input type="checkbox" name="sizes[]" value="46"><span>৪৬</span></label></div>
+          <label>অন্য সাইজ<input name="sizes_extra" value="" placeholder="যেমন: 7, 8, 9 বা Free size"></label>
+          <label>রং <small>(কমা দিয়ে আলাদা করুন)</small><input name="colors" id="f-colors" value="" placeholder="যেমন: কালো, সাদা"></label>
+        </section>
+      </div>
+      <div>
+        <section class="box ai-box">
+          <h2>৩. ✨ অটো ক্যাপশন <small>নাম, কালেকশন, দাম আর ছবি দেখে নিজে থেকে লেখা তৈরি হবে। পরে ইচ্ছামতো বদলাতে পারবেন।</small></h2>
+          <div class="lbl">লেখার ধরন</div>
+          <div class="chips tone" id="tone">
+            <label><input type="radio" name="tone_pick" value="premium" checked=""><span>👑 প্রিমিয়াম</span></label>
+            <label><input type="radio" name="tone_pick" value="offer"><span>🔥 অফার</span></label>
+            <label><input type="radio" name="tone_pick" value="festive"><span>🌙 উৎসব/ঈদ</span></label>
+            <label><input type="radio" name="tone_pick" value="casual"><span>😊 বন্ধুসুলভ</span></label>
+          </div>
+          <label>বাড়তি কিছু বলতে চাইলে (ঐচ্ছিক)<input id="f-notes" placeholder="যেমন: চামড়ার, ঈদ অফার, হালকা ওজন"></label>
+          <div class="row-btns"><button type="button" class="btn" id="gen">✨ অটো ক্যাপশন বানান</button><button type="button" class="btn ghost" id="gen2" title="আরেকটা নতুন লেখা">🔄 আরেকটা</button></div>
+          <p class="muted sm" id="gen-note">ছবি আপলোড করলে নিজে থেকেই লেখা তৈরি হবে: ইংরেজি আর বাংলা দুই ভাষায়, সাথে ফেসবুক, ইনস্টাগ্রাম আর গুগলের লেখা। ফাঁকা রেখে সেভ করলেও অটো লেখা বসে যাবে। (এখন টেমপ্লেট দিয়ে লিখবে; আরও ভালো লেখার জন্য সেটিংসে ফ্রি Gemini key দিন)</p>
+          <div class="cap-tabs" role="tablist"><button type="button" class="on" data-captab="bn">🇧🇩 বাংলা</button><button type="button" data-captab="en">🇬🇧 English</button><button type="button" data-captab="social">📣 সোশ্যাল ও গুগল</button></div>
+          <div class="cap-pane" data-pane="bn">
+            <label>ছোট বিবরণ (বাংলা)<textarea name="short_bn" id="f-short-bn" rows="2"></textarea></label>
+            <label>পুরো বিবরণ (বাংলা)<textarea name="description_bn" id="f-desc-bn" rows="8"></textarea></label>
+          </div>
+          <div class="cap-pane" data-pane="en" hidden="">
+            <label>ছোট বিবরণ (ইংরেজি)<textarea name="short" id="f-short" rows="2"></textarea></label>
+            <label>পুরো বিবরণ (ইংরেজি)<textarea name="description" id="f-desc" rows="8"></textarea></label>
+          </div>
+          <div class="cap-pane" data-pane="social" hidden="">
+            <label>ফেসবুক পোস্ট (বাংলা) <button type="button" class="link-btn" data-copy="#f-fb">📋 কপি</button><textarea name="fb_post" id="f-fb" rows="9"></textarea></label>
+            <label>ফেসবুক পোস্ট (ইংরেজি) <button type="button" class="link-btn" data-copy="#f-fb-en">📋 কপি</button><textarea name="fb_post_en" id="f-fb-en" rows="9"></textarea></label>
+            <label>ইনস্টাগ্রাম ক্যাপশন <button type="button" class="link-btn" data-copy="#f-insta">📋 কপি</button><textarea id="f-insta" rows="5" placeholder="অটো ক্যাপশন চাপলে এখানে আসবে (শুধু কপি করার জন্য)"></textarea></label>
+            <label>গুগলের টাইটেল <button type="button" class="link-btn" data-copy="#f-seo-t">📋 কপি</button><input id="f-seo-t" placeholder="অটো ক্যাপশন চাপলে আসবে"></label>
+            <label>গুগলের বিবরণ <button type="button" class="link-btn" data-copy="#f-seo-d">📋 কপি</button><textarea id="f-seo-d" rows="2" placeholder="অটো ক্যাপশন চাপলে আসবে"></textarea></label>
+          </div>
+          <label>ট্যাগ (সার্চের জন্য)<input name="tags" id="f-tags" value=""></label>
+        </section>
+        <section class="box">
+          <h2>৪. দেখানো</h2>
+          <div class="checks">
+            <label><input type="checkbox" name="active" checked=""> সাইটে দেখাবে</label>
+            <label><input type="checkbox" name="featured"> "এখন সবচেয়ে জনপ্রিয়"-তে দেখাবে</label>
+            <label><input type="checkbox" name="is_new" checked=""> "নতুন" ব্যাজ</label>
+          </div>
+          <label>লিংক (ঐচ্ছিক)<input name="slug" value="" placeholder="ফাঁকা রাখলে নাম থেকে বানাবে"></label>
+        </section>
+      </div>
+    </div>
+    <div class="savebar"><button class="btn">💾 সেভ করুন</button><button class="btn ghost" name="and_new" value="1">সেভ করে আরেকটা পোস্ট</button></div>
+    </form>
+    </main><script>window.CSRF="8f1d60d0b81534b4dab8050d48fd2b11";window.AURL="\/admin\/";window.BASE="\/";</script><script src="admin/admin.js?v=1.3.0"></script><script>document.addEventListener("submit",function(e){e.preventDefault()},true);window.onbeforeunload=null;</script></body></html>
