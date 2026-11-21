@@ -60,7 +60,7 @@ function page_head(string $title = '', string $desc = '', string $ogImg = ''): v
 <?php if ($ogImg): ?><meta property="og:image" content="<?= e($ogImg) ?>"><?php endif; ?>
 <link rel="icon" href="<?= e(S('logo') ? img_url(S('logo')) : url('assets/img/favicon.svg')) ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500;600&family=Noto+Serif+Bengali:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Jost:wght@400;500;600&family=Noto+Serif+Bengali:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="<?= e(url('assets/css/site.css')) ?>?v=<?= JB_VERSION ?>">
 <style>:root{--accent:<?= e($acc) ?>}</style>
 <?php if ($s['pixel_id']): ?><script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','<?= e($s['pixel_id']) ?>');fbq('track','PageView');</script><?php endif; ?>
@@ -144,10 +144,10 @@ function page_foot(): void {
   </div>
   <div class="wrap ftr-bot"><span>© <?= date('Y') ?> <?= e(is_bn() ? $s['shop_name'] : $s['shop_name_en']) ?>. <?= t('All rights reserved.', 'সর্বস্বত্ব সংরক্ষিত।') ?></span><a class="dev" href="https://www.linkedin.com/in/abid-islam-a926ab2b5/" target="_blank" rel="noopener"><span><?= t('Designed &amp; developed by', 'ডিজাইন ও ডেভেলপ করেছেন') ?></span><b><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.6c0-1.3 0-3-1.9-3s-2.2 1.5-2.2 2.9V21H9z"/></svg>Abid Islam</b></a></div>
 </footer>
-<div class="wa-pop" id="wa-pop" hidden role="dialog" aria-label="WhatsApp chat">
-  <div class="wa-pop-head"><span class="wa-pop-av"><?= icon('wa', 22) ?></span><div><b><?= e($s['shop_name_en']) ?></b><small><?= t('Usually replies within minutes', 'সাধারণত কয়েক মিনিটে উত্তর দেয়') ?></small></div><button type="button" class="wa-x" data-wa-close aria-label="Close"><?= icon('x', 18) ?></button></div>
-  <div class="wa-pop-body"><p class="wa-bubble"><?= t('Hi there 👋', 'আসসালামু আলাইকুম 👋') ?><br><?= e(SL('wa_popup')) ?></p></div>
-  <a class="btn btn-wa btn-block" id="wa-go" target="_blank" rel="noopener" href="https://wa.me/<?= e($wa) ?>?text=<?= rawurlencode(t('Hi, I would like to ask about a pair of shoes.', 'আসসালামু আলাইকুম, একটা জুতা সম্পর্কে জানতে চাই।')) ?>"><?= icon('wa', 18) ?> <?= t('Chat on WhatsApp', 'হোয়াটসঅ্যাপে কথা বলুন') ?></a>
+<div class="wa-pop" id="wa-pop" lang="bn" hidden role="dialog" aria-label="WhatsApp chat">
+  <div class="wa-pop-head"><span class="wa-pop-av"><?= icon('wa', 22) ?></span><div><b><?= e($s['shop_name_en']) ?></b><small>সাধারণত কয়েক মিনিটে উত্তর দেয়</small></div><button type="button" class="wa-x" data-wa-close aria-label="Close"><?= icon('x', 18) ?></button></div>
+  <div class="wa-pop-body"><p class="wa-bubble">আসসালামু আলাইকুম 👋<br><?= e(S('wa_popup_bn') ?: S('wa_popup')) ?></p></div>
+  <a class="btn btn-wa btn-block" id="wa-go" target="_blank" rel="noopener" href="https://wa.me/<?= e($wa) ?>?text=<?= rawurlencode('আসসালামু আলাইকুম, একটা জুতা সম্পর্কে জানতে চাই।') ?>"><?= icon('wa', 18) ?> হোয়াটসঅ্যাপে কথা বলুন</a>
 </div>
 <script>window.JB_WAPOP=<?= (int)($s['wa_popup_sec'] ?? 6) ?>;</script>
 <a class="wa-float" href="https://wa.me/<?= e($wa) ?>" target="_blank" rel="noopener" aria-label="<?= t('Message us on WhatsApp', 'হোয়াটসঅ্যাপে মেসেজ দিন') ?>"><?= icon('wa', 28) ?></a>
