@@ -156,7 +156,7 @@ function page_foot(): void {
 <nav class="tabbar only-m" aria-label="Bottom menu">
   <a href="<?= e(url()) ?>"<?= $rt === '' || $rt === 'index.php' ? ' class="on"' : '' ?>><?= icon('home') ?><span><?= t('Home', 'হোম') ?></span></a>
   <a href="<?= e(url('shop')) ?>"<?= preg_match('#^(shop|c/|p/)#', $rt) ? ' class="on"' : '' ?>><?= icon('grid') ?><span><?= t('Shop', 'শপ') ?></span></a>
-  <button data-open="#searchbox"><?= icon('search') ?><span><?= t('Search', 'খুঁজুন') ?></span></button>
+  <a href="<?= e(url('track')) ?>"<?= str_starts_with($rt, 'track') ? ' class="on"' : '' ?>><?= icon('truck') ?><span><?= t('Track order', 'অর্ডার ট্র্যাক') ?></span></a>
   <a href="<?= e(url('cart')) ?>" class="cart-btn<?= str_starts_with($rt, 'cart') || str_starts_with($rt, 'checkout') ? ' on' : '' ?>"><?= icon('bag') ?><span><?= t('Cart', 'কার্ট') ?></span><i class="cart-count" data-cart-count hidden>0</i></a>
   <a class="tb-wa" href="https://wa.me/<?= e($wa) ?>" target="_blank" rel="noopener"><i><?= icon('wa', 22) ?></i><span>WhatsApp</span></a>
 </nav>

@@ -880,3 +880,4 @@ html,body{overflow-x:clip}
   .hdr .icon-btn{height:40px}
 }
 .logo-txt small{display:none!important}
+@media (max-width:899px){.tabbar .tb-wa i{width:30px;height:30px;margin:-6px 0 0}.tabbar .tb-wa .ic{width:19px;height:19px}}
