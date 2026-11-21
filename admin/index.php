@@ -136,6 +136,7 @@ if ($isPost) {
             $sizes = implode(',', list_csv(implode(',', (array)($_POST['sizes'] ?? [])) . ',' . ($_POST['sizes_extra'] ?? '')));
             $f = [
                 'name' => $name, 'collection_id' => (int)$_POST['collection_id'] ?: null, 'brand' => trim((string)$_POST['brand']),
+                'gender' => isset(genders()[$_POST['gender'] ?? '']) || ($_POST['gender'] ?? '') === 'unisex' ? $_POST['gender'] : 'men',
                 'price' => max(0, (int)$_POST['price']), 'old_price' => max(0, (int)$_POST['old_price']), 'images' => json_encode($imgs),
                 'sizes' => $sizes, 'colors' => implode(', ', list_csv((string)$_POST['colors'])), 'stock' => max(0, (int)$_POST['stock']),
                 'short' => trim((string)$_POST['short']), 'description' => trim((string)$_POST['description']), 'fb_post' => trim((string)$_POST['fb_post']),
@@ -441,7 +442,7 @@ case 'product':
     $id = (int)($_GET['id'] ?? 0);
     $p = $id ? db()->query('SELECT * FROM products WHERE id=' . $id)->fetch() : null;
     if ($id && !$p) go('products', [], '!প্রোডাক্ট পাওয়া যায়নি');
-    $p = $p ?: ['id' => 0, 'name' => '', 'slug' => '', 'collection_id' => (int)($_GET['col'] ?? 0), 'brand' => '', 'price' => '', 'old_price' => '', 'images' => '[]', 'sizes' => '39,40,41,42,43', 'colors' => '', 'stock' => 10, 'short' => '', 'description' => '', 'fb_post' => '', 'tags' => '', 'featured' => 0, 'is_new' => 1, 'active' => 1];
+    $p = $p ?: ['id' => 0, 'name' => '', 'slug' => '', 'collection_id' => (int)($_GET['col'] ?? 0), 'brand' => '', 'gender' => 'men', 'price' => '', 'old_price' => '', 'images' => '[]', 'sizes' => '39,40,41,42,43', 'colors' => '', 'stock' => 10, 'short' => '', 'description' => '', 'fb_post' => '', 'tags' => '', 'featured' => 0, 'is_new' => 1, 'active' => 1];
     $cols = collections(false);
     $sel = list_csv($p['sizes']);
     $std = array_map('strval', range(35, 46));
@@ -466,6 +467,7 @@ case 'product':
             <label>কালেকশন *<select name="collection_id" id="f-col"><option value="0">কালেকশন বাছুন</option><?php foreach ($cols as $c): ?><option value="<?= $c['id'] ?>"<?= $p['collection_id'] == $c['id'] ? ' selected' : '' ?>><?= e($c['name']) ?></option><?php endforeach; ?></select></label>
             <label>ব্র্যান্ড<input name="brand" id="f-brand" value="<?= e($p['brand']) ?>" placeholder="ঐচ্ছিক"></label>
           </div>
+          <label>কার জন্য<select name="gender"><?php foreach (['men' => 'ছেলেদের', 'women' => 'মেয়েদের', 'kids' => 'বাচ্চাদের', 'unisex' => 'ছেলে-মেয়ে দুজনের'] as $gk => $gl): ?><option value="<?= $gk ?>"<?= ($p['gender'] ?? 'men') === $gk ? ' selected' : '' ?>><?= $gl ?></option><?php endforeach; ?></select></label>
           <div class="g3">
             <label>বিক্রয় দাম (৳) *<input type="number" name="price" id="f-price" value="<?= e((string)$p['price']) ?>" min="0" required></label>
             <label>আগের দাম (৳)<input type="number" name="old_price" id="f-old" value="<?= e((string)$p['old_price']) ?>" min="0" placeholder="ছাড় দেখাতে"></label>

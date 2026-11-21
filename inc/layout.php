@@ -40,6 +40,7 @@ function page_head(string $title = '', string $desc = '', string $ogImg = ''): v
     $brand = is_bn() ? $s['shop_name'] : $s['shop_name_en'];
     $full = $title ? "$title | $brand" : $brand . ' | ' . t('Shoes Online in Bangladesh', 'অনলাইনে জুতা কিনুন');
     $desc = $desc ?: SL('meta_desc');
+    if (mb_strlen($desc) < 70 && $title !== '') $desc = rtrim($desc, ' .।') . ($desc !== '' ? '. ' : '') . t($title . ' at JUTAR BAZAR. Cash on delivery and home delivery all over Bangladesh.', $title . ' — জুতার বাজার। ক্যাশ অন ডেলিভারি, সারা দেশে হোম ডেলিভারি।');
     $cols = collections();
     $acc = preg_match('/^#[0-9a-f]{6}$/i', $s['accent']) ? $s['accent'] : '#8c6a3f';
     ?><!doctype html>
@@ -78,11 +79,12 @@ function page_head(string $title = '', string $desc = '', string $ogImg = ''): v
     <nav class="nav only-d" aria-label="Collections">
       <?php $hr = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/', '/'); $hb = trim(parse_url(base_url(), PHP_URL_PATH) ?: '', '/'); if ($hb !== '' && str_starts_with($hr, $hb)) $hr = trim(substr($hr, strlen($hb)), '/'); $cur = str_starts_with($hr, 'c/') ? substr($hr, 2) : ($GLOBALS['jb_cur_col'] ?? ''); ?>
       <a href="<?= e(url()) ?>"<?= ($hr === '' || $hr === 'index.php') ? ' class="on" aria-current="page"' : '' ?>><?= t('Home', 'হোম') ?></a>
+      <?php foreach (genders() as $gk => $gv): ?><a class="g<?= $hr === $gk ? ' on' : '' ?>" href="<?= e(url($gk)) ?>"<?= $hr === $gk ? ' aria-current="page"' : '' ?>><?= e(t($gv[0], $gv[1])) ?></a><?php endforeach; ?><span class="nav-sep" aria-hidden="true"></span>
       <?php foreach ($cols as $c): ?><a href="<?= e(url('c/' . $c['slug'])) ?>"<?= $cur === $c['slug'] ? ' class="on" aria-current="page"' : '' ?>><?= e(col_name($c)) ?></a><?php endforeach; ?>
     </nav>
     <div class="hdr-act">
       <form class="search only-d" action="<?= e(url('shop')) ?>" role="search"><?= icon('search', 18) ?><input name="q" placeholder="<?= t('Search shoes...', 'জুতা খুঁজুন...') ?>" aria-label="<?= t('Search', 'খুঁজুন') ?>" value="<?= e($_GET['q'] ?? '') ?>"></form>
-      <a class="lang-sw" href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>" hreflang="<?= is_bn() ? 'en' : 'bn' ?>" aria-label="<?= is_bn() ? 'Switch to English' : 'Switch to Bangla' ?>"><?= is_bn() ? 'EN' : 'BN' ?></a>
+      <a class="lang-sw" href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>" hreflang="<?= is_bn() ? 'en' : 'bn' ?>" title="<?= is_bn() ? 'Switch to English' : 'Switch to Bangla' ?>"><?= is_bn() ? 'EN' : 'BN' ?></a>
       <button class="icon-btn only-m" data-open="#searchbox" aria-label="<?= t('Search', 'খুঁজুন') ?>"><?= icon('search') ?></button>
       <a class="icon-btn cart-btn" href="<?= e(url('cart')) ?>" aria-label="<?= t('Cart', 'কার্ট') ?>"><?= icon('bag') ?><span class="cart-count" data-cart-count hidden>0</span></a>
     </div>
@@ -97,8 +99,9 @@ function page_head(string $title = '', string $desc = '', string $ogImg = ''): v
     <div class="drawer-top"><a href="<?= e(url()) ?>" class="logo"><?= logo_html() ?></a><button class="icon-btn" data-close="#drawer" aria-label="Close"><?= icon('x') ?></button></div>
     <a class="drawer-link" href="<?= e(url()) ?>"><?= t('Home', 'হোম') ?></a>
     <a class="drawer-link" href="<?= e(url('shop')) ?>"><?= t('All Shoes', 'সব জুতা') ?></a>
+    <div class="drawer-g"><?php foreach (genders() as $gk => $gv): ?><a href="<?= e(url($gk)) ?>"><?= e(t($gv[0], $gv[1])) ?></a><?php endforeach; ?></div>
     <?php foreach ($cols as $c): ?>
-      <a class="drawer-link with-img" href="<?= e(url('c/' . $c['slug'])) ?>"><img src="<?= e(img_url($c['image'])) ?>" alt="" loading="lazy"><span><?= e(col_name($c)) ?><?php if (col_tag($c)): ?><small><?= e(col_tag($c)) ?></small><?php endif; ?></span></a>
+      <a class="drawer-link with-img" href="<?= e(url('c/' . $c['slug'])) ?>"><img src="<?= e(img_url($c['image'])) ?>"<?= srcset_attr(img_url($c['image']), '60px', 800) ?> alt="" loading="lazy"><span><?= e(col_name($c)) ?><?php if (col_tag($c)): ?><small><?= e(col_tag($c)) ?></small><?php endif; ?></span></a>
     <?php endforeach; ?>
     <a class="drawer-link" href="<?= e(url('track')) ?>"><?= t('Track your order', 'অর্ডার ট্র্যাক করুন') ?></a>
     <a class="drawer-link" href="<?= e(lang_url(is_bn() ? 'en' : 'bn')) ?>"><?= is_bn() ? 'English' : 'Bangla' ?></a>
@@ -210,7 +213,7 @@ function offer_slider(string $first = ''): string {
             . '<span class="of-l"><span class="of-rays"></span><b class="of-t"><span>' . e($o['l1']) . '</span>' . ($o['l2'] !== '' ? '<span>' . e($o['l2']) . '</span>' : '') . '</b>'
             . '<span class="of-brand">' . e(S('shop_name_en') ?: 'JUTAR BAZAR') . '</span>' . (stripos($o['l1'] . $o['l2'], 'cash') === false ? '<span class="of-cod">CASH ON<br>DELIVERY<small>ALL OVER BD</small></span>' : '') . '</span>'
             . '<span class="of-r"><span class="of-box"><i class="of-top">' . e($o['top']) . '</i><strong>' . e($o['big']) . '</strong>' . ($o['end'] !== '' ? '<em>' . e($o['end']) . '</em>' : '') . '</span>' . (S('of_note') !== '' ? '<small class="of-note">' . e(S('of_note')) . '</small>' : '') . '</span>'
-            . ($o['img'] ? '<img class="of-img" src="' . e($o['img']) . '" alt="" ' . ($i ? 'decoding="async"' : 'fetchpriority="high"') . '>' : '')
+            . ($o['img'] ? '<img class="of-img" src="' . e($o['img']) . '"' . srcset_attr($o['img'], '(max-width:700px) 60vw, 560px', 1100) . ' alt="" ' . ($i ? 'decoding="async"' : 'fetchpriority="high"') . '>' : '')
             . '</a>';
     }
     $h .= '</div>';
@@ -225,8 +228,8 @@ function product_card(array $p, string $colName = '', bool $eager = false): stri
     $alt = isset($imgs[1]) ? img_url($imgs[1]) : '';
     $h = '<article class="card">';
     $h .= '<a class="card-img" href="' . e(url('p/' . $p['slug'])) . '">';
-    $h .= '<img src="' . e($img) . '" alt="' . e($p['name']) . '" ' . ($eager ? 'fetchpriority="high"' : 'loading="lazy"') . ' decoding="async" width="600" height="600">';
-    if ($alt) $h .= '<img class="alt" src="' . e($alt) . '" alt="" loading="lazy" width="600" height="600">';
+    $h .= '<img src="' . e($img) . '"' . srcset_attr($img, '(max-width:700px) 50vw, (max-width:1200px) 33vw, 25vw') . ' alt="' . e($p['name']) . '" ' . ($eager ? 'fetchpriority="high"' : 'loading="lazy"') . ' decoding="async" width="600" height="600">';
+    if ($alt) $h .= '<img class="alt" src="' . e($alt) . '"' . srcset_attr($alt, '(max-width:700px) 50vw, (max-width:1200px) 33vw, 25vw') . ' alt="" loading="lazy" width="600" height="600">';
     $h .= '<span class="badges">' . ($d ? '<i class="b-off">-' . bn_num($d) . '%</i>' : '') . ($p['is_new'] ? '<i class="b-new">' . t('New', 'নতুন') . '</i>' : '') . ((int)$p['stock'] <= 0 ? '<i class="b-out">' . t('Sold out', 'স্টক শেষ') . '</i>' : '') . '</span>';
     $h .= '</a><div class="card-body">';
     if ($colName) $h .= '<span class="card-col">' . e($colName) . '</span>';
@@ -239,4 +242,14 @@ function product_card(array $p, string $colName = '', bool $eager = false): stri
     if ($st > 0 && $st <= 3) $h .= '<span class="low">' . t('Only ' . $st . ' left', 'মাত্র ' . bn_num($st) . 'টি বাকি') . '</span>';
     $h .= '</div></article>';
     return $h;
+}
+
+// v2.1: small copies (assets/img/demo/<dir>/s/NAME.webp) for phones; returns srcset + sizes, or '' when none exists
+function srcset_attr(string $src, string $sizes, int $big = 1000): string {
+    if (!preg_match('~^(.*assets/img/demo/(?:offer|p|real)/)([^/?]+\.webp)~', $src, $m)) return '';
+    $rel = preg_replace('~^.*?(assets/img/demo/)~', '$1', $m[1]);
+    if (!is_file(__DIR__ . '/../' . $rel . 's/' . $m[2])) return '';
+    $small = $m[1] . 's/' . $m[2];
+    $w = str_contains($m[1], '/offer/') ? 560 : 480;
+    return ' srcset="' . e($small) . ' ' . $w . 'w, ' . e($src) . ' ' . $big . 'w" sizes="' . e($sizes) . '"';
 }

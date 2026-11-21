@@ -40,6 +40,8 @@ function jb_seed(PDO $pdo): void {
         ['formal', 'Classic Tan Derby', 'Crafted', 3690, 4300, 'frm-6', '39,40,41,42,43,44', 'Tan', 0],
         ['sandals', 'Crochet Fringe Slide', 'Breeze', 1350, 1600, 'snd-5', '36,37,38,39,40,41', 'Cream', 0],
         ['sandals', 'Cross-Strap Platform Sandal', 'Breeze', 1890, 2250, 'snd-6', '36,37,38,39,40', 'Maroon', 1],
+        ['sneakers', 'Little Bloom Baby Sneaker', 'Tiny Steps', 990, 1250, 'kid-1', '19,20,21,22,23', 'Teal', 1],
+        ['sneakers', 'Tiny Red Canvas', 'Tiny Steps', 890, 1100, 'kid-2', '19,20,21,22,23,24', 'Red', 0],
     ];
     require_once __DIR__ . '/caption.php';
     $colId = [];
@@ -52,4 +54,12 @@ function jb_seed(PDO $pdo): void {
         $pi->execute([$p[1], slugify($p[1]), $c['id'], $p[2], $p[3], $p[4], json_encode(["assets/img/demo/p/{$p[5]}.webp"]), $p[6], $p[7], $i % 5 === 1 ? 3 : 15,
             $cap['short'], $cap['description'], $cap['fb_post'], $cap['tags'], $p[8], $i % 4 === 0 ? 1 : 0, $i, $now, $now, $cap['short_bn'], $cap['description_bn'], $cap['fb_post_en']]);
     }
+    jb_seed_gender($pdo);
+}
+
+// Men / Women / Kids for the demo products (everything else stays 'men')
+function jb_seed_gender(PDO $pdo): void {
+    $pdo->exec("UPDATE products SET gender='women' WHERE slug IN ('crochet-fringe-slide','cross-strap-platform-sandal','embroidered-slip-on')");
+    $pdo->exec("UPDATE products SET gender='unisex' WHERE slug IN ('red-canvas-low','clean-white-court','canvas-high-top','color-pop-runner','urban-court-classic')");
+    $pdo->exec("UPDATE products SET gender='kids' WHERE slug IN ('little-bloom-baby-sneaker','tiny-red-canvas')");
 }

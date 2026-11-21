@@ -7,7 +7,7 @@ date_default_timezone_set('Asia/Dhaka');
 mb_internal_encoding('UTF-8');
 
 define('JB_ROOT', dirname(__DIR__));
-define('JB_VERSION', '2.0.0');
+define('JB_VERSION', '2.1.0');
 
 /** Private data folder: ~/jutarbazar-data (outside public_html) if possible, else ./data (blocked by .htaccess). */
 function jb_data_dir(): string {
@@ -63,6 +63,12 @@ function db(): PDO {
     if (!in_array('short_bn', $pc, true)) $pdo->exec("ALTER TABLE products ADD COLUMN short_bn TEXT DEFAULT ''");
     if (!in_array('description_bn', $pc, true)) $pdo->exec("ALTER TABLE products ADD COLUMN description_bn TEXT DEFAULT ''");
     if (!in_array('fb_post_en', $pc, true)) $pdo->exec("ALTER TABLE products ADD COLUMN fb_post_en TEXT DEFAULT ''");
+    // v2.1: Men / Women / Kids sections
+    if (!in_array('gender', $pc, true)) {
+        $pdo->exec("ALTER TABLE products ADD COLUMN gender TEXT DEFAULT 'men'");
+        $pdo->exec("UPDATE products SET gender='women' WHERE slug IN ('crochet-fringe-slide','cross-strap-platform-sandal','embroidered-slip-on')");
+        $pdo->exec("UPDATE products SET gender='unisex' WHERE slug IN ('red-canvas-low','clean-white-court','canvas-high-top','color-pop-runner','urban-court-classic')");
+    }
     $cc = array_column($pdo->query('PRAGMA table_info(collections)')->fetchAll(), 'name');
     if (!in_array('tagline_bn', $cc, true)) $pdo->exec("ALTER TABLE collections ADD COLUMN tagline_bn TEXT DEFAULT ''");
     if ($new) { require_once __DIR__ . '/seed.php'; jb_seed($pdo); }
@@ -328,3 +334,9 @@ function norm_phone(string $p): string {
 }
 function shop_csrf(): string { shop_session(); if (empty($_SESSION['scsrf'])) $_SESSION['scsrf'] = bin2hex(random_bytes(16)); return $_SESSION['scsrf']; }
 function shop_csrf_ok(): bool { shop_session(); $t = $_POST['csrf'] ?? ''; return is_string($t) && !empty($_SESSION['scsrf']) && hash_equals($_SESSION['scsrf'], $t); }
+
+/* ---------- Men / Women / Kids ---------- */
+function genders(): array {
+    return ['men' => ['Men', 'ছেলেদের'], 'women' => ['Women', 'মেয়েদের'], 'kids' => ['Kids', 'বাচ্চাদের']];
+}
+

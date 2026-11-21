@@ -13,6 +13,7 @@ switch ($page) {
     case '': home(); break;
     case 'shop': shop(); break;
     case 'c': shop($parts[1] ?? ''); break;
+    case 'men': case 'women': case 'kids': shop('', $page); break;
     case 'p': product($parts[1] ?? ''); break;
     case 'cart': cart_page(); break;
     case 'checkout': checkout_page(); break;
@@ -83,14 +84,25 @@ function home(): void {
 </section>
 <?php endif; ?>
 
+<section class="gtiles" aria-label="<?= t('Shop for', 'কার জন্য') ?>">
+  <div class="wrap">
+    <h2><?= t('Shop for', 'কার জন্য কিনবেন') ?></h2>
+    <div class="gt-grid">
+      <?php foreach (['men' => 'm', 'women' => 'w', 'kids' => 'k'] as $gk => $gc): $gv = genders()[$gk]; ?>
+      <a class="gt <?= $gc ?>" href="<?= e(url($gk)) ?>"><img src="<?= e(url('assets/img/demo/offer/g-' . $gk . '.webp')) ?>"<?= srcset_attr(url('assets/img/demo/offer/g-' . $gk . '.webp'), '(max-width:700px) 33vw, 30vw', 800) ?> alt="" loading="lazy" decoding="async" width="800" height="600"><span><b><?= e(t($gv[0], $gv[1])) ?></b><i><?= t('Shop now', 'দেখুন') ?></i></span></a>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
 <?php if ($cols): ?>
 <section class="cols" id="collections" aria-label="Collections">
   <div class="wrap">
     <div class="sec-head"><h2><small><?= t('Shop by collection', 'কালেকশন অনুযায়ী') ?></small>Our Collections</h2><a href="<?= e(url('shop')) ?>" class="more"><?= t('View all', 'সব দেখুন') ?> <?= icon('arrow', 16) ?></a></div>
     <div class="col-row">
-      <?php foreach ($cols as $c): ?>
+      <?php foreach ($cols as $ci => $c): ?>
       <a class="col-tile" href="<?= e(url('c/' . $c['slug'])) ?>">
-        <img src="<?= e(img_url($c['image'])) ?>" alt="<?= e(col_name($c)) ?>" loading="lazy" width="600" height="800">
+        <img src="<?= e(img_url($c['image'])) ?>"<?= srcset_attr(img_url($c['image']), '(max-width:700px) 60vw, 20vw', 800) ?> alt=""<?= $ci < 2 ? '' : ' loading="lazy"' ?> width="600" height="800">
         <span><b><?= e($c['name_en'] ?: $c['name']) ?></b><i><?= t('Shop now', 'দেখুন') ?> <?= icon('arrow', 14) ?></i></span>
       </a>
       <?php endforeach; ?>
@@ -145,7 +157,7 @@ function home(): void {
 }
 
 /* ================= SHOP / COLLECTION ================= */
-function shop(string $slug = ''): void {
+function shop(string $slug = '', string $gender = ''): void {
     $cols = collections();
     $colName = []; foreach ($cols as $c) $colName[$c['id']] = col_name($c);
     $col = null;
@@ -158,15 +170,18 @@ function shop(string $slug = ''): void {
     $size = trim((string)($_GET['size'] ?? ''));
     $where = ['active=1']; $args = [];
     if ($col) { $where[] = 'collection_id=?'; $args[] = $col['id']; }
+    $gn = genders()[$gender] ?? null;
+    if ($gn) { if ($gender === 'kids') { $where[] = "gender='kids'"; } else { $where[] = "gender IN (?,'unisex')"; $args[] = $gender; } }
     if ($q !== '') { $where[] = '(name LIKE ? OR brand LIKE ? OR tags LIKE ? OR short LIKE ? OR colors LIKE ?)'; for ($i = 0; $i < 5; $i++) $args[] = "%$q%"; }
     if ($size !== '' && ctype_digit($size)) { $where[] = "(',' || REPLACE(sizes,' ','') || ',') LIKE ?"; $args[] = "%,$size,%"; }
     $order = ['new' => 'featured DESC, sort, id DESC', 'low' => 'price ASC', 'high' => 'price DESC', 'off' => '(old_price-price) DESC'][$sort] ?? 'id DESC';
     $st = db()->prepare('SELECT * FROM products WHERE ' . implode(' AND ', $where) . " ORDER BY $order");
     $st->execute($args);
     $items = $st->fetchAll();
-    $title = $col ? col_name($col) : ($q !== '' ? t("Results for \"$q\"", "\"$q\" এর ফলাফল") : t('All Shoes', 'সব জুতা'));
-    page_head($title, $col ? col_tag($col) : '');
-    $base = $col ? url('c/' . $col['slug']) : url('shop');
+    $title = $col ? col_name($col) : ($gn ? t($gn[0] . "'s Shoes", $gn[1] . ' জুতা') : ($q !== '' ? t("Results for \"$q\"", "\"$q\" এর ফলাফল") : t('All Shoes', 'সব জুতা')));
+    if ($gender === 'kids') $title = t("Kids' Shoes", 'বাচ্চাদের জুতা'); elseif ($gender === 'women') $title = t("Women's Shoes", 'মেয়েদের জুতা');
+    page_head($title, $col ? col_tag($col) : ($gn ? t('Shop ' . ['men' => "men's", 'women' => "women's", 'kids' => "kids'"][$gender] . ' shoes online at JUTAR BAZAR: sneakers, sandals, loafers and more. Cash on delivery all over Bangladesh.', $gn[1] . ' জুতা অনলাইনে কিনুন জুতার বাজারে: স্নিকার্স, স্যান্ডেল, লোফার আর আরও অনেক কিছু। সারা দেশে ক্যাশ অন ডেলিভারি।') : ''));
+    $base = $col ? url('c/' . $col['slug']) : ($gn ? url($gender) : url('shop'));
     ?>
 <?php $maxOff = 0; foreach ($items as $it) $maxOff = max($maxOff, discount_pct($it)); $bimg = $col ? img_url($col['image']) : url('assets/img/demo/hero-full.webp');
   $sortOpts = ['new' => t('Featured', 'বাছাই করা'), 'low' => t('Price: low to high', 'দাম: কম থেকে বেশি'), 'high' => t('Price: high to low', 'দাম: বেশি থেকে কম'), 'off' => t('Biggest discount', 'সবচেয়ে বেশি ছাড়')];
@@ -200,7 +215,10 @@ function shop(string $slug = ''): void {
 <div class="lx-body" id="lx-body">
   <aside class="lx-side" aria-label="<?= t('Filters', 'ফিল্টার') ?>">
     <details open><summary><?= t('Collection', 'কালেকশন') ?></summary>
-      <ul class="lx-links"><li><a class="<?= !$col ? 'on' : '' ?>" href="<?= e(url('shop')) ?>"><?= t('All shoes', 'সব জুতা') ?></a></li><?php foreach ($cols as $c): ?><li><a class="<?= $col && $col['id'] == $c['id'] ? 'on' : '' ?>" href="<?= e(url('c/' . $c['slug'])) ?>"><?= e(col_name($c)) ?></a></li><?php endforeach; ?></ul>
+      <ul class="lx-links"><li><a class="<?= !$col && !$gn ? 'on' : '' ?>" href="<?= e(url('shop')) ?>"><?= t('All shoes', 'সব জুতা') ?></a></li><?php foreach ($cols as $c): ?><li><a class="<?= $col && $col['id'] == $c['id'] ? 'on' : '' ?>" href="<?= e(url('c/' . $c['slug'])) ?>"><?= e(col_name($c)) ?></a></li><?php endforeach; ?></ul>
+    </details>
+    <details open><summary><?= t('Shop for', 'কার জন্য') ?></summary>
+      <ul class="lx-links"><?php foreach (genders() as $gk => $gv): ?><li><a class="<?= $gender === $gk ? 'on' : '' ?>" href="<?= e(url($gk)) ?>"><?= e(t($gv[0], $gv[1])) ?></a></li><?php endforeach; ?></ul>
     </details>
     <details open><summary><?= t('Size', 'সাইজ') ?></summary>
       <div class="lx-szs"><a class="<?= $size === '' ? 'on' : '' ?>" href="<?= e($keep(['size' => ''])) ?>"><?= t('All', 'সব') ?></a><?php for ($z = 36; $z <= 46; $z++): ?><a class="<?= $size === (string)$z ? 'on' : '' ?>" href="<?= e($keep(['size' => (string)$z])) ?>"><?= bn_num($z) ?></a><?php endfor; ?></div>
@@ -494,6 +512,7 @@ function sitemap(): void {
     header('Content-Type: application/xml; charset=utf-8');
     echo '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     echo '<url><loc>' . e(full_url()) . '</loc><priority>1.0</priority></url><url><loc>' . e(full_url('shop')) . '</loc></url>';
+    foreach (array_keys(genders()) as $g) echo '<url><loc>' . e(full_url($g)) . '</loc></url>';
     foreach (collections() as $c) echo '<url><loc>' . e(full_url('c/' . $c['slug'])) . '</loc></url>';
     foreach (db()->query('SELECT slug,updated FROM products WHERE active=1') as $p) echo '<url><loc>' . e(full_url('p/' . rawurlencode($p['slug']))) . '</loc><lastmod>' . e(substr((string)$p['updated'], 0, 10)) . '</lastmod></url>';
     echo '</urlset>';
