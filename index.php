@@ -240,6 +240,7 @@ function product(string $slug): void {
     $st->execute([$slug]);
     $p = $st->fetch();
     if (!$p) { not_found(); return; }
+    $GLOBALS['jb_cur_col'] = $p['cslug'];
     $p['cname'] = is_bn() ? ($p['cname_bn'] ?: $p['cname_en']) : ($p['cname_en'] ?: $p['cname_bn']);
     db()->prepare('UPDATE products SET views=views+1 WHERE id=?')->execute([$p['id']]);
     $imgs = p_images($p) ?: [''];

@@ -76,8 +76,9 @@ function page_head(string $title = '', string $desc = '', string $ogImg = ''): v
     <button class="icon-btn only-m" data-open="#drawer" aria-label="Menu"><?= icon('menu') ?></button>
     <a href="<?= e(url()) ?>" class="logo"><?= logo_html() ?></a>
     <nav class="nav only-d" aria-label="Collections">
-      <a href="<?= e(url()) ?>"><?= t('Home', 'হোম') ?></a>
-      <?php foreach ($cols as $c): ?><a href="<?= e(url('c/' . $c['slug'])) ?>"><?= e(col_name($c)) ?></a><?php endforeach; ?>
+      <?php $hr = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/', '/'); $hb = trim(parse_url(base_url(), PHP_URL_PATH) ?: '', '/'); if ($hb !== '' && str_starts_with($hr, $hb)) $hr = trim(substr($hr, strlen($hb)), '/'); $cur = str_starts_with($hr, 'c/') ? substr($hr, 2) : ($GLOBALS['jb_cur_col'] ?? ''); ?>
+      <a href="<?= e(url()) ?>"<?= ($hr === '' || $hr === 'index.php') ? ' class="on" aria-current="page"' : '' ?>><?= t('Home', 'হোম') ?></a>
+      <?php foreach ($cols as $c): ?><a href="<?= e(url('c/' . $c['slug'])) ?>"<?= $cur === $c['slug'] ? ' class="on" aria-current="page"' : '' ?>><?= e(col_name($c)) ?></a><?php endforeach; ?>
     </nav>
     <div class="hdr-act">
       <form class="search only-d" action="<?= e(url('shop')) ?>" role="search"><?= icon('search', 18) ?><input name="q" placeholder="<?= t('Search shoes...', 'জুতা খুঁজুন...') ?>" aria-label="<?= t('Search', 'খুঁজুন') ?>" value="<?= e($_GET['q'] ?? '') ?>"></form>

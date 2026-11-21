@@ -902,3 +902,6 @@ h2 small{display:none!important}
 .logo-txt b i{font-style:normal;color:#e5131d}
 .ftr .logo-txt b{color:#fff}
 @media (max-width:420px){.logo-txt b{font-size:clamp(19px,6vw,24px)}}
+/* v1.9.3 current page in the menu */
+.nav a.on{color:#e5131d!important;font-weight:600}
+.nav a.on::after{transform:scaleX(1)!important;background:#e5131d!important;height:2px;bottom:1px}
