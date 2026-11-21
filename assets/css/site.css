@@ -879,3 +879,4 @@ html,body{overflow-x:clip}
   .hdr .lang-sw{height:34px}
   .hdr .icon-btn{height:40px}
 }
+.logo-txt small{display:none!important}
