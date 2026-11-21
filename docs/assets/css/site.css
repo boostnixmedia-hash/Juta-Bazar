@@ -871,3 +871,11 @@ html,body{overflow-x:clip}
 .badges{top:8px;left:8px;z-index:2}
 .badges i,.b-off{font-size:10.5px;padding:2px 7px}
 .hdr.hide{transform:none!important}
+/* v1.8.4 phone header: everything on one straight line */
+@media (max-width:899px){
+  .hdr .logo-txt small{display:none}
+  .hdr .logo-txt b{line-height:1;display:block;margin-top:-3px}
+  .hdr-in>*{align-self:center}
+  .hdr .lang-sw{height:34px}
+  .hdr .icon-btn{height:40px}
+}
