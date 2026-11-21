@@ -32,6 +32,14 @@ function jb_seed(PDO $pdo): void {
         ['sandals', 'Leather Thong Sandal', 'Breeze', 1450, 1750, 'snd-2', '39,40,41,42,43', 'Black/Brown', 0],
         ['sandals', 'Double Strap Sandal', 'Breeze', 1690, 0, 'snd-3', '39,40,41,42,43,44', 'Olive', 0],
         ['sandals', 'Cork Buckle Sandal', 'Breeze', 1190, 1400, 'snd-4', '38,39,40,41,42,43', 'Brown', 0],
+        ['running', 'Air Glide Runner', 'Stride', 3790, 4500, 'run-4', '39,40,41,42,43,44', 'Charcoal/White', 1],
+        ['running', 'Pulse Knit Runner', 'Pacer', 3590, 4200, 'run-5', '39,40,41,42,43', 'Black/White', 0],
+        ['sneakers', 'Clean White Court', 'Kicks', 2290, 2750, 'snk-5', '38,39,40,41,42,43', 'White', 1],
+        ['loafers', 'Pinstripe Velvet Slipper', 'Heritage', 2650, 0, 'lof-5', '39,40,41,42,43', 'Navy Stripe', 0],
+        ['formal', 'Patina Cap-Toe Oxford', 'Heritage', 5290, 6200, 'frm-5', '40,41,42,43,44', 'Midnight Blue', 1],
+        ['formal', 'Classic Tan Derby', 'Crafted', 3690, 4300, 'frm-6', '39,40,41,42,43,44', 'Tan', 0],
+        ['sandals', 'Crochet Fringe Slide', 'Breeze', 1350, 1600, 'snd-5', '36,37,38,39,40,41', 'Cream', 0],
+        ['sandals', 'Cross-Strap Platform Sandal', 'Breeze', 1890, 2250, 'snd-6', '36,37,38,39,40', 'Maroon', 1],
     ];
     require_once __DIR__ . '/caption.php';
     $colId = [];

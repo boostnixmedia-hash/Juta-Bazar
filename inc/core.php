@@ -7,7 +7,7 @@ date_default_timezone_set('Asia/Dhaka');
 mb_internal_encoding('UTF-8');
 
 define('JB_ROOT', dirname(__DIR__));
-define('JB_VERSION', '1.9.3');
+define('JB_VERSION', '2.0.0');
 
 /** Private data folder: ~/jutarbazar-data (outside public_html) if possible, else ./data (blocked by .htaccess). */
 function jb_data_dir(): string {
@@ -188,6 +188,24 @@ function jb_defaults(): array {
         'of7_theme' => 'maroon',
         'of7_img' => 'assets/img/demo/offer/lof-4.webp',
         'of7_link' => 'c/loafers',
+        'of8_on' => '1',
+        'of8_l1' => 'RUNNING',
+        'of8_l2' => 'SHOES',
+        'of8_top' => 'UP TO',
+        'of8_big' => 'auto',
+        'of8_end' => 'OFF!',
+        'of8_theme' => 'navy',
+        'of8_img' => 'assets/img/demo/offer/run-4.webp',
+        'of8_link' => 'c/running',
+        'of9_on' => '1',
+        'of9_l1' => 'SANDALS',
+        'of9_l2' => 'COLLECTION',
+        'of9_top' => 'UP TO',
+        'of9_big' => 'auto',
+        'of9_end' => 'OFF!',
+        'of9_theme' => 'green',
+        'of9_img' => 'assets/img/demo/offer/snd-2.webp',
+        'of9_link' => 'c/sandals',
         'of_note' => '',
     ];
 }

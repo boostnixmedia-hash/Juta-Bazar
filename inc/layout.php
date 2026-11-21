@@ -186,7 +186,7 @@ function color_dots(string $colors): string {
 /** Auto-sliding offer banners (Admin > Settings > Offer banners). */
 function offer_slides(): array {
     $o = [];
-    for ($i = 1; $i <= 7; $i++) {
+    for ($i = 1; $i <= 9; $i++) {
         if (S("of{$i}_on") !== '1' || trim(S("of{$i}_l1") . S("of{$i}_big")) === '') continue;
         $img = S("of{$i}_img"); $lk = trim(S("of{$i}_link"));
         $big = S("of{$i}_big"); $top = S("of{$i}_top"); $end = S("of{$i}_end");
@@ -201,8 +201,9 @@ function offer_slides(): array {
     }
     return $o;
 }
-function offer_slider(): string {
+function offer_slider(string $first = ''): string {
     $sl = offer_slides(); if (!$sl) return '';
+    if ($first !== '') { $want = url('c/' . $first); usort($sl, fn($a, $b) => ($b['link'] === $want) <=> ($a['link'] === $want)); }
     $h = '<section class="ofs" aria-label="Offers" data-ofs><div class="ofs-track">';
     foreach ($sl as $i => $o) {
         $h .= '<a class="of of-' . e($o['theme']) . ($i ? '' : ' on') . '" href="' . e($o['link']) . '"' . ($i ? ' aria-hidden="true" tabindex="-1"' : '') . '>'

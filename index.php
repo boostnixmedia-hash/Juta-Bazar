@@ -172,7 +172,7 @@ function shop(string $slug = ''): void {
   $sortOpts = ['new' => t('Featured', 'বাছাই করা'), 'low' => t('Price: low to high', 'দাম: কম থেকে বেশি'), 'high' => t('Price: high to low', 'দাম: বেশি থেকে কম'), 'off' => t('Biggest discount', 'সবচেয়ে বেশি ছাড়')];
   $keep = function (array $set) use ($q, $sort, $size, $base) { $v = array_filter(array_merge(['q' => $q, 'sort' => $sort === 'new' ? '' : $sort, 'size' => $size], $set), fn($x) => $x !== '' && $x !== null); return $base . ($v ? '?' . http_build_query($v) : ''); }; ?>
 <div class="wrap lx-crumbs"><nav class="crumbs" aria-label="Breadcrumb"><a href="<?= e(url()) ?>"><?= t('Home', 'হোম') ?></a> / <?= $col ? '<a href="' . e(url('shop')) . '">' . t('All Shoes', 'সব জুতা') . '</a> / ' : '' ?><span><?= e($title) ?></span></nav></div>
-<?php $ofs = offer_slider(); if ($ofs): echo $ofs; else: ?>
+<?php $ofs = offer_slider($col ? $col['slug'] : ''); if ($ofs): echo $ofs; else: ?>
 <section class="lx-banner">
   <img src="<?= e($bimg) ?>" alt="<?= e($title) ?>" width="1600" height="600" fetchpriority="high">
   <div class="lx-bt">
