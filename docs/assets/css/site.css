@@ -866,3 +866,8 @@ html,body{overflow-x:clip}
 .of.on .of-img{animation-delay:.5s}
 .of-t,.of-box,.of-cod{transition:opacity .25s,translate .35s cubic-bezier(.2,.8,.2,1)}
 .of.on .of-box{transition-delay:.08s}.of.on .of-cod{transition-delay:.14s}
+/* v1.8.3 badges never cover the shoe; header stays still on phone */
+.card-img img{top:34px;left:6px;right:6px;bottom:4px;width:calc(100% - 12px);height:calc(100% - 38px);object-fit:contain}
+.badges{top:8px;left:8px;z-index:2}
+.badges i,.b-off{font-size:10.5px;padding:2px 7px}
+.hdr.hide{transform:none!important}

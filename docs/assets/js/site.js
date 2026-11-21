@@ -142,13 +142,6 @@ if(co){
   try{var v=localStorage.getItem(window.innerWidth>=900?'jb_cols_d':'jb_cols');if(v)set(v);else if(window.innerWidth>=900)set('3')}catch(x){}
   try{if(window.innerWidth>=900&&localStorage.getItem('jb_lxhide')==='1'&&document.getElementById('lx-bar')){document.body.classList.add('lx-hide');var ft=document.querySelector('.lx-ft');if(ft)ft.textContent=ft.getAttribute('data-off')}}catch(x){}
 })();
-/* phone: hide header when scrolling down, show when scrolling up */
-(function(){var h=document.querySelector('.hdr');if(!h)return;var y0=window.scrollY,tick=false;
-  window.addEventListener('scroll',function(){if(tick)return;tick=true;requestAnimationFrame(function(){var y=window.scrollY;
-    if(window.innerWidth<900&&!document.body.style.overflow){var hide=y>140&&y>y0+4;var show=y<y0-4||y<80;
-      if(hide){h.classList.add('hide');document.body.classList.add('hdr-hidden')}else if(show){h.classList.remove('hide');document.body.classList.remove('hdr-hidden')}}
-    y0=y;tick=false})},{passive:true});
-})();
 /* PC: hero fills the screen under the header */
 (function(){var h=document.querySelector('.hdr');if(!h)return;function s(){document.documentElement.style.setProperty('--hdr-pc',h.offsetHeight+'px')}s();window.addEventListener('resize',s)})();
 /* offer slider: auto slide every 4.5 s, swipe on phone */
