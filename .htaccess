@@ -1,5 +1,9 @@
 Options -Indexes
 DirectoryIndex index.php
+<IfModule mod_mime.c>
+AddType image/webp .webp
+AddType image/svg+xml .svg
+</IfModule>
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteRule ^(inc|data)(/|$) - [F,L]
