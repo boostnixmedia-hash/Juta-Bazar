@@ -897,3 +897,8 @@ h2 small{display:none!important}
   .hdr .nav{margin:0 auto 0 0}
   .nav a{font-size:15.5px;padding:8px 12px;color:var(--ink)}
 }
+/* v1.9.1 red logo wordmark */
+.logo-txt b{font-family:'Jost',sans-serif!important;font-weight:700!important;letter-spacing:.02em!important;padding-left:0!important;color:#141210;font-size:25px}
+.logo-txt b i{font-style:normal;color:#e5131d}
+.ftr .logo-txt b{color:#fff}
+@media (max-width:420px){.logo-txt b{font-size:clamp(19px,6vw,24px)}}

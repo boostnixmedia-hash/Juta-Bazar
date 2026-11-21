@@ -31,7 +31,8 @@ function icon(string $n, int $s = 22): string {
 
 function logo_html(): string {
     if (S('logo')) return '<img src="' . e(img_url(S('logo'))) . '" alt="' . e(S('shop_name')) . '" class="logo-img">';
-    return '<span class="logo-txt"><b>' . e(S('shop_name_en') ?: S('shop_name')) . '</b><small>Footwear</small></span>';
+    $nm = S('shop_name_en') ?: S('shop_name'); $w = preg_split('/\s+/', trim($nm), 2);
+    return '<span class="logo-txt"><b><i>' . e($w[0]) . '</i>' . (isset($w[1]) ? ' ' . e($w[1]) : '') . '</b><small>Footwear</small></span>';
 }
 
 function page_head(string $title = '', string $desc = '', string $ogImg = ''): void {
