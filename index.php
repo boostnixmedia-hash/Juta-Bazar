@@ -77,9 +77,6 @@ function home(): void {
     </ul>
   </div>
   <a class="hx-scroll" href="#collections" aria-label="<?= t('Scroll down', 'নিচে দেখুন') ?>"><span></span></a>
-  <?php if ($spot): ?>
-  <a class="hx-tag" href="<?= e(url('p/' . $spot['slug'])) ?>"><img src="<?= e(p_first_image($spot)) ?>" alt="" width="64" height="64"><span><small><?= t('Pick of the week', 'এই সপ্তাহের সেরা') ?></small><b><?= e($spot['name']) ?></b><i><?= money($spot['price']) ?></i></span></a>
-  <?php endif; ?>
 </section>
 
 <?= offer_slider() ?>
