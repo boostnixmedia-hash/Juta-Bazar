@@ -2,7 +2,7 @@
 <title>অর্ডার JB-1001 | অ্যাডমিন</title>
 <link rel="icon" href="assets/img/favicon.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;500;600;700;800&amp;family=Cormorant+Garamond:wght@600;700&amp;family=Noto+Serif+Bengali:wght@600;700&amp;display=swap">
-<link rel="stylesheet" href="admin/admin.css?v=2.1.0">
+<link rel="stylesheet" href="admin/admin.css?v=2.1.1">
 </head><body class=""><div style="position:sticky;top:0;z-index:999;background:#141210;color:#fff;text-align:center;padding:8px 12px;font:500 14px/1.5 'Noto Sans Bengali',sans-serif">ডেমো অ্যাডমিন প্যানেল (পাসওয়ার্ড ছাড়া): ঘুরে দেখা যাবে, কিন্তু এখানে কিছু সেভ হবে না। আসল প্যানেল cPanel-এ আপলোডের পর <b>আপনারডোমেইন.com/admin</b>-এ পাবেন, তখন প্রথমবার পাসওয়ার্ড সেট করবেন। <a href="index.html" style="color:#e7cfa6;text-decoration:underline">সাইটে ফিরে যান</a></div>
 <header class="top">
   <button class="menu-btn" onclick="document.body.classList.toggle('nav-open')" aria-label="মেনু">☰</button>
@@ -35,13 +35,13 @@
       </section>
       <section class="box no-print">
         <h2>স্ট্যাটাস বদলান</h2>
-        <form method="post" action="#" class="form"><input type="hidden" name="csrf" value="f88631278b07705c7dedd084868ce87f"><input type="hidden" name="id" value="1">
+        <form method="post" action="#" class="form"><input type="hidden" name="csrf" value="04371f1888c196b07994a24de2c4fedb"><input type="hidden" name="id" value="1">
           <div class="radios"><label><input type="radio" name="status" value="new" checked=""><span>নতুন</span></label><label><input type="radio" name="status" value="confirmed"><span>কনফার্মড</span></label><label><input type="radio" name="status" value="shipped"><span>পাঠানো হয়েছে</span></label><label><input type="radio" name="status" value="delivered"><span>ডেলিভারি সম্পন্ন</span></label><label><input type="radio" name="status" value="cancelled"><span>বাতিল</span></label><label><input type="radio" name="status" value="returned"><span>ফেরত</span></label></div>
           <label>নিজের নোট (কাস্টমার দেখবে না)<textarea name="admin_note" rows="3" placeholder="যেমন: কুরিয়ার ট্র্যাকিং নাম্বার, কথা হয়েছে কিনা"></textarea></label>
           <button class="btn full">সেভ করুন</button>
           <p class="muted sm">বাতিল বা ফেরত দিলে স্টক আবার যোগ হয়ে যাবে।</p>
         </form>
-        <form method="post" action="#" onsubmit="return confirm('অর্ডারটা একেবারে মুছে ফেলবেন?')"><input type="hidden" name="csrf" value="f88631278b07705c7dedd084868ce87f"><input type="hidden" name="id" value="1"><button class="link-btn red">অর্ডার মুছে ফেলুন</button></form>
+        <form method="post" action="#" onsubmit="return confirm('অর্ডারটা একেবারে মুছে ফেলবেন?')"><input type="hidden" name="csrf" value="04371f1888c196b07994a24de2c4fedb"><input type="hidden" name="id" value="1"><button class="link-btn red">অর্ডার মুছে ফেলুন</button></form>
       </section>
     </div>
-    </main><script>window.CSRF="f88631278b07705c7dedd084868ce87f";window.AURL="\/admin\/";window.BASE="\/";</script><script src="admin/demo-caption.js?v=1.4.3"></script><script src="admin/admin.js?v=1.4.3"></script><script>document.addEventListener("submit",function(e){e.preventDefault()},true);window.onbeforeunload=null;</script></body></html>
+    </main><script>window.CSRF="04371f1888c196b07994a24de2c4fedb";window.AURL="\/admin\/";window.BASE="\/";</script><script src="admin/demo-caption.js?v=1.4.3"></script><script src="admin/admin.js?v=1.4.3"></script><script>document.addEventListener("submit",function(e){e.preventDefault()},true);window.onbeforeunload=null;</script></body></html>

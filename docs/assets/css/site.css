@@ -933,3 +933,8 @@ h2 small{display:none!important}
 .ftr-bot>span{color:#b9b9b9!important}
 .tabbar a.tb-wa span{color:#0b6e33!important}
 .ofs-dots button{position:relative}.ofs-dots button::before{content:"";position:absolute;inset:-9px -3px}
+/* v2.1.1 footer credit: Abid Islam & Boostnix Media */
+.dev{flex-wrap:wrap;gap:8px}.dev>span{white-space:nowrap}.dev i{font-style:normal;color:#777}
+.dev a:hover b{background:#0a66c2;border-color:#0a66c2}.dev:hover b{background:none;border-color:#333}.dev a:hover b{background:#0a66c2!important;border-color:#0a66c2!important}
+.dev b.bx{padding:6px 14px}.dev a:hover b.bx{background:#e5131d!important;border-color:#e5131d!important}
+@media(max-width:700px){.dev>span{flex-basis:100%}}
