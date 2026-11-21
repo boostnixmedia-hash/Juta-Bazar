@@ -56,6 +56,9 @@ function home(): void {
     $spot = $featured[0] ?? null;
     page_head('', '', full_url(ltrim(parse_url($heroImg, PHP_URL_PATH) ?: '', '/')));
     ?>
+<h1 class="sr-only"><?= e(is_bn() ? $s['shop_name'] : $s['shop_name_en']) ?> · <?= e(SL('hero_title')) ?></h1>
+<?= offer_slider() ?>
+<?php if (S('hero_on') === '1'): ?>
 <section class="hx">
   <picture>
     <?php if (!$s['hero_image']): ?><source media="(max-width:700px)" srcset="<?= e(url('assets/img/demo/hero-full-s.webp')) ?>"><?php endif; ?>
@@ -78,8 +81,7 @@ function home(): void {
   </div>
   <a class="hx-scroll" href="#collections" aria-label="<?= t('Scroll down', 'নিচে দেখুন') ?>"><span></span></a>
 </section>
-
-<?= offer_slider() ?>
+<?php endif; ?>
 
 <?php if ($cols): ?>
 <section class="cols" id="collections" aria-label="Collections">

@@ -7,7 +7,7 @@ date_default_timezone_set('Asia/Dhaka');
 mb_internal_encoding('UTF-8');
 
 define('JB_ROOT', dirname(__DIR__));
-define('JB_VERSION', '1.7.2');
+define('JB_VERSION', '1.8.0');
 
 /** Private data folder: ~/jutarbazar-data (outside public_html) if possible, else ./data (blocked by .htaccess). */
 function jb_data_dir(): string {
@@ -77,6 +77,7 @@ function jb_defaults(): array {
         'logo' => '',
         'tagline' => 'Step into more',
         'announce' => 'Cash on delivery all over Bangladesh  •  Easy size exchange  •  Every pair checked before dispatch',
+        'hero_on' => '0',
         'hero_kicker' => 'NEW SEASON 2026',
         'hero_title' => 'প্রতিটি পদক্ষেপে আভিজাত্য',
         'hero_title_en' => 'Walk in Style',
