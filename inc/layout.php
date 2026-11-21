@@ -158,7 +158,7 @@ function page_foot(): void {
   <a href="<?= e(url('shop')) ?>"<?= preg_match('#^(shop|c/|p/)#', $rt) ? ' class="on"' : '' ?>><?= icon('grid') ?><span><?= t('Shop', 'শপ') ?></span></a>
   <button data-open="#searchbox"><?= icon('search') ?><span><?= t('Search', 'খুঁজুন') ?></span></button>
   <a href="<?= e(url('cart')) ?>" class="cart-btn<?= str_starts_with($rt, 'cart') || str_starts_with($rt, 'checkout') ? ' on' : '' ?>"><?= icon('bag') ?><span><?= t('Cart', 'কার্ট') ?></span><i class="cart-count" data-cart-count hidden>0</i></a>
-  <a href="https://wa.me/<?= e($wa) ?>" target="_blank" rel="noopener"><?= icon('wa') ?><span><?= t('Chat', 'চ্যাট') ?></span></a>
+  <a class="tb-wa" href="https://wa.me/<?= e($wa) ?>" target="_blank" rel="noopener"><i><?= icon('wa', 22) ?></i><span>WhatsApp</span></a>
 </nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="<?= e(url('assets/js/site.js')) ?>?v=<?= JB_VERSION ?>" defer></script>
