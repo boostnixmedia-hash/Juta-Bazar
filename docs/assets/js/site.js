@@ -153,9 +153,9 @@ if(co){
 (function(){var h=document.querySelector('.hdr');if(!h)return;function s(){document.documentElement.style.setProperty('--hdr-pc',h.offsetHeight+'px')}s();window.addEventListener('resize',s)})();
 /* offer slider: auto slide every 4.5 s, swipe on phone */
 (function(){[].forEach.call(document.querySelectorAll('[data-ofs]'),function(r){var t=r.querySelector('.ofs-track'),d=[].slice.call(r.querySelectorAll('.ofs-dots button')),n=t.children.length,i=0,pause=false,tm;if(n<2)return;
-  function go(k){i=(k+n)%n;t.scrollTo({left:i*t.clientWidth,behavior:'smooth'})}
+  function go(k){i=(k+n)%n;[].forEach.call(t.children,function(s,j){s.classList.toggle('on',j===i)});d.forEach(function(b,j){b.classList.toggle('on',j===i)});t.scrollTo({left:i*t.clientWidth,behavior:'smooth'})}
   function mark(){var k=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));d.forEach(function(b,j){b.classList.toggle('on',j===k)});[].forEach.call(t.children,function(s,j){s.setAttribute('aria-hidden',j===k?'false':'true');s.classList.toggle('on',j===k);s.tabIndex=j===k?0:-1});i=k}
-  t.addEventListener('scroll',function(){clearTimeout(t._s);t._s=setTimeout(mark,80)},{passive:true});
+  t.addEventListener('scroll',function(){if(t._r)return;t._r=requestAnimationFrame(function(){t._r=0;mark()})},{passive:true});
   d.forEach(function(b,j){b.addEventListener('click',function(){go(j)})});
   r.addEventListener('mouseenter',function(){pause=true});r.addEventListener('mouseleave',function(){pause=false});
   r.addEventListener('touchstart',function(){pause=true;clearTimeout(r._p);r._p=setTimeout(function(){pause=false},6000)},{passive:true});

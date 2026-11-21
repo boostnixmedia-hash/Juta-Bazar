@@ -861,3 +861,8 @@ html,body{overflow-x:clip}
   .hdr .icon-btn{width:36px;height:40px}
   .hdr-act{gap:0}
 }
+/* v1.8.2 faster banner entrance */
+.of-img{transition:opacity .25s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.of.on .of-img{animation-delay:.5s}
+.of-t,.of-box,.of-cod{transition:opacity .25s,translate .35s cubic-bezier(.2,.8,.2,1)}
+.of.on .of-box{transition-delay:.08s}.of.on .of-cod{transition-delay:.14s}

@@ -208,7 +208,7 @@ function offer_slider(): string {
             . '<span class="of-l"><span class="of-rays"></span><b class="of-t"><span>' . e($o['l1']) . '</span>' . ($o['l2'] !== '' ? '<span>' . e($o['l2']) . '</span>' : '') . '</b>'
             . '<span class="of-brand">' . e(S('shop_name_en') ?: 'JUTAR BAZAR') . '</span>' . (stripos($o['l1'] . $o['l2'], 'cash') === false ? '<span class="of-cod">CASH ON<br>DELIVERY<small>ALL OVER BD</small></span>' : '') . '</span>'
             . '<span class="of-r"><span class="of-box"><i class="of-top">' . e($o['top']) . '</i><strong>' . e($o['big']) . '</strong>' . ($o['end'] !== '' ? '<em>' . e($o['end']) . '</em>' : '') . '</span>' . (S('of_note') !== '' ? '<small class="of-note">' . e(S('of_note')) . '</small>' : '') . '</span>'
-            . ($o['img'] ? '<img class="of-img" src="' . e($o['img']) . '" alt="" ' . ($i ? 'loading="lazy"' : 'fetchpriority="high"') . '>' : '')
+            . ($o['img'] ? '<img class="of-img" src="' . e($o['img']) . '" alt="" ' . ($i ? 'decoding="async"' : 'fetchpriority="high"') . '>' : '')
             . '</a>';
     }
     $h .= '</div>';
